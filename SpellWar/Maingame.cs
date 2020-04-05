@@ -19,6 +19,8 @@ namespace SpellWar {
         Random sideRand;
         int side;
         KeyboardState kBState;
+        SpriteFont gameFont;
+        int timer;
 
 
         public MainGame() {
@@ -32,6 +34,7 @@ namespace SpellWar {
 
         protected override void Initialize() {
 
+            timer = 0;
             leftSideMove = 2;
             rightSideMove = 2;
             sideRand = new Random();
@@ -73,7 +76,10 @@ namespace SpellWar {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ball = Content.Load<Texture2D>("yellowball");
             ball2 = Content.Load<Texture2D>("yellowball");
-            //wizzard = Content.Load<Texture2D>("wizzard");
+            gameFont = Content.Load<SpriteFont>("gfont");
+
+            //อันนี้ตัวอย่างใส่ตัวละครนะ ก็คือ วาดใส่ตรงนี้ได้เลย แทน wizzard
+            wizzard = Content.Load<Texture2D>("wizzard");
             //ballpos.X = graphics.PreferredBackBufferWidth  - ball.Width; // Place the ball in the middle
             //ballpos.Y = graphics.GraphicsDevice.Viewport.Height - ball.Height; // Place the ball on the bottom side of the window | the ground
             //ballpos.Y = 500;
@@ -122,7 +128,8 @@ namespace SpellWar {
                             }
 
                             Console.WriteLine(leftSideMove);
-                            ball2pos.X = rightArea[leftSideMove];
+                            player2.X = rightArea[leftSideMove];
+                            //ball2pos = player2;
                         }
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
@@ -132,7 +139,8 @@ namespace SpellWar {
                             }
 
                             Console.WriteLine(leftSideMove);
-                            ball2pos.X = rightArea[leftSideMove];
+                            player2.X = rightArea[leftSideMove];
+                            //ball2pos = player2;
                         }
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
@@ -167,6 +175,7 @@ namespace SpellWar {
                     //ball1pos.X = leftArea[1];
 
                     if (!Singleton.Instance.isLeftMove) {
+
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
                             if (leftSideMove > 0) {
@@ -174,7 +183,10 @@ namespace SpellWar {
                             }
 
                             Console.WriteLine(leftSideMove);
-                            ball1pos.X = leftArea[leftSideMove];
+                            //ball1pos.X = leftArea[leftSideMove];
+                            player1.X = leftArea[leftSideMove];
+                            //ball1pos = player1;
+
                         }
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
@@ -184,7 +196,9 @@ namespace SpellWar {
                             }
 
                             Console.WriteLine(leftSideMove);
-                            ball1pos.X = leftArea[leftSideMove];
+                            //ball1pos.X = leftArea[leftSideMove];
+                            player1.X = leftArea[leftSideMove];
+                            //ball1pos = player1;
                         }
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
@@ -245,12 +259,9 @@ namespace SpellWar {
                     Reset();
                 }
 
-
+   
 
             }
-
-
-
 
             Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
@@ -276,14 +287,29 @@ namespace SpellWar {
 
         }
 
+        /*public void translate(Vector2 obj, float destination) {
+            if (obj.X < destination) {
+              if(obj.X  < destination)
+                obj.X += 30;
+            }
+            else {
+                if (obj.X > destination)
+                    obj.X -= 30;
+            }
+
+        }*/
+
 
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.MediumPurple);
 
             spriteBatch.Begin();
-            spriteBatch.Draw(ball, ball2pos, Color.White);
+            spriteBatch.Draw(ball, ball1pos, Color.White);
+            spriteBatch.Draw(wizzard, player1, Color.White);
+            spriteBatch.Draw(wizzard, player2, Color.White);
+            spriteBatch.DrawString(gameFont,""+timer,new Vector2(graphics.PreferredBackBufferWidth/2, 20),Color.Red);
 
-            spriteBatch.Draw(ball2, ball1pos, Color.White);
+            spriteBatch.Draw(ball2, ball2pos, Color.White);
             spriteBatch.Draw(rect, coor, Color.White);
 
             spriteBatch.End();
