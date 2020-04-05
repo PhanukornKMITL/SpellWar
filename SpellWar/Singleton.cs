@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace SpellWar {
         }
 
         public bool isLeftTurn, isRightTurn, isLeftMove = false, isRightMove = false;
+        public KeyboardState PreviousKey, CurrentKey;
 
         public GameState gameState;
 

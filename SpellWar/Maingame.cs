@@ -32,8 +32,8 @@ namespace SpellWar {
 
         protected override void Initialize() {
 
-            leftSideMove = 0;
-            rightSideMove = 0;
+            leftSideMove = 2;
+            rightSideMove = 2;
             sideRand = new Random();
             leftArea = new float[5];
             rightArea = new float[5];
@@ -47,7 +47,7 @@ namespace SpellWar {
             //Initialize Partition of Area
             for (int i = 0; i < leftArea.Length; i++) {
                 leftArea[i] = ((graphics.PreferredBackBufferWidth / 2) / 5) * i;
-                rightArea[i] = ((graphics.PreferredBackBufferWidth / 2) / 5) * (i + 5);
+                rightArea[i] = (((graphics.PreferredBackBufferWidth / 2) / 5) * (i + 5)) + 30;
             }
             side = sideRand.Next(0, 2);
 
@@ -113,15 +113,37 @@ namespace SpellWar {
                 if (Singleton.Instance.isLeftTurn == true) {
 
                     //right will move first
-                    kBState = Keyboard.GetState();
-                   
-       
-                    ball2pos.X = rightArea[1];
-                    //After right move
-                    Singleton.Instance.isRightMove = true;
+                    Singleton.Instance.CurrentKey = Keyboard.GetState();
+                    if (!Singleton.Instance.isRightMove) {
+                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+
+                            if (leftSideMove > 0) {
+                                leftSideMove--;
+                            }
+
+                            Console.WriteLine(leftSideMove);
+                            ball2pos.X = rightArea[leftSideMove];
+                        }
+
+                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+
+                            if (leftSideMove < 4) {
+                                leftSideMove++;
+                            }
+
+                            Console.WriteLine(leftSideMove);
+                            ball2pos.X = rightArea[leftSideMove];
+                        }
+
+                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+                            //After right move
+                            Singleton.Instance.isRightMove = true;
+                        }
+                    }
+                    
 
                     //Left Side Can Shoot Now
-                    if (Singleton.Instance.isRightMove) {
+                    else if (Singleton.Instance.isRightMove) {
 
                         //Left Side
                         if (Keyboard.GetState().IsKeyDown(Keys.Right)) {
@@ -138,11 +160,39 @@ namespace SpellWar {
                 }
                 //Turn Right To Shoot
                 else {
-                    
+
+
                     //Left will move first
-                    ball1pos.X = leftArea[1];
-                        //After left move
-                        Singleton.Instance.isLeftMove = true;
+                    Singleton.Instance.CurrentKey = Keyboard.GetState();
+                    //ball1pos.X = leftArea[1];
+
+                    if (!Singleton.Instance.isLeftMove) {
+                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+
+                            if (leftSideMove > 0) {
+                                leftSideMove--;
+                            }
+
+                            Console.WriteLine(leftSideMove);
+                            ball1pos.X = leftArea[leftSideMove];
+                        }
+
+                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+
+                            if (leftSideMove < 4) {
+                                leftSideMove++;
+                            }
+
+                            Console.WriteLine(leftSideMove);
+                            ball1pos.X = leftArea[leftSideMove];
+                        }
+
+                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+                            //After left move
+                            Singleton.Instance.isLeftMove = true;
+                        }
+                    }
+                   
 
                     if (Singleton.Instance.isLeftMove) {
                         //Right Side Can Shoot Now
@@ -198,20 +248,20 @@ namespace SpellWar {
 
 
             }
-           
 
 
 
+
+            Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
             base.Update(gameTime);
         }
 
-        
-
-
         public void Reset() {
 
-          
+
+            Singleton.Instance.isRightMove = false;
+            Singleton.Instance.isLeftMove = false;
 
             //Right Player
             player2 = new Vector2(rightArea[2] + 60, graphics.GraphicsDevice.Viewport.Height - 200);
