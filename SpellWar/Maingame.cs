@@ -13,7 +13,7 @@ namespace SpellWar {
         Texture2D wizzard; Vector2 wizzardPos = Vector2.Zero;
         Texture2D voodoo; Vector2 voodooPos = Vector2.Zero;
         Texture2D background;
-        Vector2 player2, player1;
+        Player player1, player2;
         Vector2 coor, virtualPos;
         Texture2D rect, virtualBox;
         float[] leftArea, rightArea;
@@ -37,6 +37,7 @@ namespace SpellWar {
 
         protected override void Initialize() {
 
+           
             timer = 0;
             leftSideMove = 2;
             rightSideMove = 2;
@@ -78,7 +79,7 @@ namespace SpellWar {
             }
 
 
-            Reset();
+            
             base.Initialize();
         }
 
@@ -94,10 +95,14 @@ namespace SpellWar {
             //อันนี้ตัวอย่างใส่ตัวละครนะ ก็คือ วาดใส่ตรงนี้ได้เลย แทน wizzard
             wizzard = Content.Load<Texture2D>("wizzard");
             voodoo = Content.Load<Texture2D>("voodoo");
+
+            player1 = new Player(voodoo);
+            player2 = new Player(wizzard);
             //ballpos.X = graphics.PreferredBackBufferWidth  - ball.Width; // Place the ball in the middle
             //ballpos.Y = graphics.GraphicsDevice.Viewport.Height - ball.Height; // Place the ball on the bottom side of the window | the ground
             //ballpos.Y = 500;
             //ball2pos.Y = graphics.GraphicsDevice.Viewport.Height - 148;
+            Reset();
             Singleton.Instance.gameState = Singleton.GameState.ISPLAYING;
 
 
@@ -186,7 +191,7 @@ namespace SpellWar {
                             vy = v * Math.Sin(alpha);
 
 
-                            player2.X = rightArea[rightSideMove];
+                            player2.Position = new Vector2( rightArea[rightSideMove], graphics.GraphicsDevice.Viewport.Height - 170);
 
                         }
 
@@ -264,7 +269,7 @@ namespace SpellWar {
                             vx = v * Math.Cos(alpha);
                             vy = v * Math.Sin(alpha);
 
-                            player1.X = leftArea[leftSideMove];
+                            player1.Position = new Vector2(leftArea[leftSideMove], graphics.GraphicsDevice.Viewport.Height - 170);
 
 
                         }
@@ -273,19 +278,20 @@ namespace SpellWar {
                 }
 
 
+                //Projectile Part
                 if (kState == 1) {
 
 
-                    ball1pos.Y = (float)(vy * t2 + g * t2 * t2 / 2) + (player2.Y) - ball.Height;
-                    ball1pos.X = (float)((vx * -1) * t2) + player1.X;
+                    ball1pos.Y = (float)(vy * t2 + g * t2 * t2 / 2) + (player2.Position.Y) - ball.Height;
+                    ball1pos.X = (float)((vx * -1) * t2) + player1.Position.X;
                     t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
                     ballVisible = true;
                 }
 
                 //Right to left side
                 if (kState == 2) {
-                    ball2pos.Y = (float)(vy * t2 + g * t2 * t2 / 2) + (player1.Y) - ball.Height;
-                    ball2pos.X = (float)((vx) * t2) + player2.X;
+                    ball2pos.Y = (float)(vy * t2 + g * t2 * t2 / 2) + (player1.Position.Y) - ball.Height;
+                    ball2pos.X = (float)((vx) * t2) + player2.Position.X;
 
                     t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
                     ball2Visible = true;
@@ -332,15 +338,15 @@ namespace SpellWar {
             virtualVisible = false;
 
             //Right Player
-            player2 = new Vector2(rightArea[2] , graphics.GraphicsDevice.Viewport.Height - 170);
+            player2.Position = new Vector2(rightArea[2] , graphics.GraphicsDevice.Viewport.Height - 170);
             //Left Player
-            player1 = new Vector2(leftArea[2], graphics.GraphicsDevice.Viewport.Height - 170 );
+            player1.Position= new Vector2(leftArea[2], graphics.GraphicsDevice.Viewport.Height - 170 );
 
 
 
             //set ball position according to player position this is open to change screen resolution.
-            ball2pos = player2;
-            ball1pos = player1;
+            ball2pos = player2.Position;
+            ball1pos = player1.Position;
 
 
 
@@ -353,8 +359,8 @@ namespace SpellWar {
             spriteBatch.Begin();
             spriteBatch.Draw(background, GraphicsDevice.Viewport.Bounds, Color.White);
             
-            spriteBatch.Draw(voodoo, player1, Color.White);
-            spriteBatch.Draw(wizzard, player2, Color.White);
+            spriteBatch.Draw(voodoo, player1.Position, Color.White);
+            spriteBatch.Draw(wizzard, player2.Position, Color.White);
             spriteBatch.DrawString(gameFont, "" + (Math.Floor(timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Red);
 
             if (ballVisible) {

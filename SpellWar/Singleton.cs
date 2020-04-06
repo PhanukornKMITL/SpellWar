@@ -9,7 +9,7 @@ namespace SpellWar {
     class Singleton {
 
       public  enum GameState {
-            ISPLAYING, PAUSE
+            ISPLAYING, PAUSE, WINNER
         }
 
         public bool isLeftTurn, isRightTurn, isLeftMove = false, isRightMove = false;
