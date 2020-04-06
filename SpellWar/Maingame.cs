@@ -62,7 +62,7 @@ namespace SpellWar {
             //Initialize Partition of Area
             for (int i = 0; i < leftArea.Length; i++) {
                 leftArea[i] = ((graphics.PreferredBackBufferWidth / 2) / 5) * i;
-                rightArea[i] = (((graphics.PreferredBackBufferWidth / 2) / 5) * (i + 5)) + 30;
+                rightArea[i] = (((graphics.PreferredBackBufferWidth / 2) / 5) * (i + 5));
             }
             side = sideRand.Next(0, 2);
 
@@ -119,9 +119,10 @@ namespace SpellWar {
         protected override void Update(GameTime gameTime) {
 
 
+            if(timer > 0)
             timer -= gameTime.ElapsedGameTime.TotalSeconds;
             
-            Console.WriteLine(timer+ " "+ gameTime.ElapsedGameTime.TotalSeconds);
+           
 
             if (Singleton.Instance.gameState == Singleton.GameState.ISPLAYING) {
 
@@ -137,19 +138,20 @@ namespace SpellWar {
 
                     //right will move first
                     Singleton.Instance.CurrentKey = Keyboard.GetState();
+                   
                     virtualVisible = true;
                     if (!Singleton.Instance.isRightMove) {
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
-                            
+
                             if (rightSideMove > 0) {
                                 rightSideMove--;
                             }
 
-                            Console.WriteLine(rightSideMove);
+                           
                             //player2.X = rightArea[rightSideMove];
                             //ball2pos = player2;
-                            
+
                         }
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
@@ -158,14 +160,15 @@ namespace SpellWar {
                                 rightSideMove++;
                             }
 
-                            Console.WriteLine(rightSideMove);
+                            
                             //player2.X = rightArea[rightSideMove];
                             //ball2pos = player2;
-                           
+
                         }
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
                             //After right move
+
                             Singleton.Instance.isRightMove = true;
                         }
                     }
@@ -174,19 +177,23 @@ namespace SpellWar {
                     //Left Side Can Shoot Now
                     else if (Singleton.Instance.isRightMove) {
                         virtualVisible = false;
-
+                        Console.WriteLine("leftshoot"+" "+timer);
                         //Left Side
-                        if (Keyboard.GetState().IsKeyDown(Keys.Right)) {
+                        if (Keyboard.GetState().IsKeyDown(Keys.Right) || timer <= 0) {
                             kState = 1; v = -820;
                             alpha = MathHelper.ToRadians(68f); // the angle at which the object is thrown (measured in radians)
                             vx = v * Math.Cos(alpha);
                             vy = v * Math.Sin(alpha);
-                            
 
-                        player2.X = rightArea[rightSideMove];
+
+                            player2.X = rightArea[rightSideMove];
 
                         }
 
+                    }
+                    if (timer <= 0) {
+                        Singleton.Instance.isRightMove = true;
+                        timer = 3;
                     }
 
 
@@ -199,6 +206,7 @@ namespace SpellWar {
                     //Left will move first
                     Singleton.Instance.CurrentKey = Keyboard.GetState();
                     //ball1pos.X = leftArea[1];
+                   
 
                     if (!Singleton.Instance.isLeftMove) {
 
@@ -208,11 +216,12 @@ namespace SpellWar {
                                 leftSideMove--;
                             }
 
-                            
+                         
+
                             //ball1pos.X = leftArea[leftSideMove];
                             //player1.X = leftArea[leftSideMove];
                             //ball1pos = player1;
-                           
+
 
                         }
 
@@ -226,22 +235,30 @@ namespace SpellWar {
                             //ball1pos.X = leftArea[leftSideMove];
                             //player1.X = leftArea[leftSideMove];
                             //ball1pos = player1;
-                           
+
                         }
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
                             //After left move
                             Singleton.Instance.isLeftMove = true;
+                            
+                        }
+
+                        if (timer <= 0) {
+                            Singleton.Instance.isLeftMove = true;
+                            timer = 3;
                         }
                     }
 
 
                     else if (Singleton.Instance.isLeftMove) {
+                        
                         virtualVisible = false;
                         //Right Side Can Shoot Now
-                        if (Keyboard.GetState().IsKeyDown(Keys.Left)) {
+                        
+                        if (Keyboard.GetState().IsKeyDown(Keys.Left) ||  timer <= 0) {
                             kState = 2; v = -820;
-                            // position 3
+                           
                             //alpha = MathHelper.ToRadians(68f); // the angle at which the object is thrown (measured in radians)   
                             alpha = MathHelper.ToRadians(75f);
                             vx = v * Math.Cos(alpha);
@@ -262,7 +279,6 @@ namespace SpellWar {
                     ball1pos.Y = (float)(vy * t2 + g * t2 * t2 / 2) + (player2.Y) - ball.Height;
                     ball1pos.X = (float)((vx * -1) * t2) + player1.X;
                     t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
-
                     ballVisible = true;
                 }
 
@@ -310,13 +326,13 @@ namespace SpellWar {
             Singleton.Instance.isLeftMove = false;
             leftSideMove = 2;
             rightSideMove = 2;
-            timer = 60;
+            timer = 30;
             ballVisible = false;
             ball2Visible = false;
             virtualVisible = false;
 
             //Right Player
-            player2 = new Vector2(rightArea[2] + 60, graphics.GraphicsDevice.Viewport.Height - 170);
+            player2 = new Vector2(rightArea[2] , graphics.GraphicsDevice.Viewport.Height - 170);
             //Left Player
             player1 = new Vector2(leftArea[2], graphics.GraphicsDevice.Viewport.Height - 170 );
 
@@ -339,7 +355,7 @@ namespace SpellWar {
             
             spriteBatch.Draw(voodoo, player1, Color.White);
             spriteBatch.Draw(wizzard, player2, Color.White);
-            spriteBatch.DrawString(gameFont, "" + Math.Floor(timer), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Red);
+            spriteBatch.DrawString(gameFont, "" + (Math.Floor(timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Red);
 
             if (ballVisible) {
                 spriteBatch.Draw(ball, ball1pos, Color.White);
@@ -352,7 +368,7 @@ namespace SpellWar {
             spriteBatch.Draw(rect, coor, Color.White);
             if (virtualVisible) {
                 if (Singleton.Instance.isLeftTurn) {
-                    spriteBatch.Draw(virtualBox, new Vector2(rightArea[rightSideMove], 700), Color.White * 0.5f);
+                    spriteBatch.Draw(virtualBox, new Vector2(rightArea[rightSideMove] , 700), Color.White * 0.5f);
                 }
                 else if (Singleton.Instance.isRightTurn) {
                     spriteBatch.Draw(virtualBox, new Vector2(leftArea[leftSideMove], 700), Color.White * 0.5f);
