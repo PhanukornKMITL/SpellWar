@@ -10,7 +10,9 @@ namespace SpellWar {
         SpriteBatch spriteBatch;
         Texture2D ball; Vector2 ball2pos = Vector2.Zero; // The position of the ball in 2D space (X,Y)
         Texture2D ball2; Vector2 ball1pos = Vector2.Zero;
-        Texture2D wizzard; Vector2 wizzardPos = Vector2.Zero;
+        Texture2D East_wizzard; Vector2 East_wizzardPos = Vector2.Zero;
+        Texture2D West_wizzard; Vector2 West_wizzardPos = Vector2.Zero;
+
         Vector2 player2, player1;
         Vector2 coor;
         Texture2D rect;
@@ -74,12 +76,15 @@ namespace SpellWar {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            ball = Content.Load<Texture2D>("yellowball");
-            ball2 = Content.Load<Texture2D>("yellowball");
+            ball = Content.Load<Texture2D>("West_ball");
+            ball2 = Content.Load<Texture2D>("East_ball");
             gameFont = Content.Load<SpriteFont>("gfont");
 
             //อันนี้ตัวอย่างใส่ตัวละครนะ ก็คือ วาดใส่ตรงนี้ได้เลย แทน wizzard
-            wizzard = Content.Load<Texture2D>("wizzard");
+            West_wizzard = Content.Load<Texture2D>("WesttWizar_260_280");
+            East_wizzard = Content.Load<Texture2D>("EastWizar_260_280");
+
+            
             //ballpos.X = graphics.PreferredBackBufferWidth  - ball.Width; // Place the ball in the middle
             //ballpos.Y = graphics.GraphicsDevice.Viewport.Height - ball.Height; // Place the ball on the bottom side of the window | the ground
             //ballpos.Y = 500;
@@ -228,7 +233,7 @@ namespace SpellWar {
 
 
                     ball1pos.Y = (float)(vy * t2 + g * t2 * t2 / 2) + (player2.Y) - ball.Height;
-                    ball1pos.X = (float)((vx * -1) * t2) + player1.X;
+                    ball1pos.X = (float)((vx * -1) * t2) + player1.X+200;
                     t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
                 }
 
@@ -275,13 +280,13 @@ namespace SpellWar {
             Singleton.Instance.isLeftMove = false;
 
             //Right Player
-            player2 = new Vector2(rightArea[2] + 60, graphics.GraphicsDevice.Viewport.Height - 200);
+            player2 = new Vector2(rightArea[2] + 60, graphics.GraphicsDevice.Viewport.Height - 280);
             //Left Player
-            player1 = new Vector2(leftArea[2], graphics.GraphicsDevice.Viewport.Height - 200);
+            player1 = new Vector2(leftArea[2], graphics.GraphicsDevice.Viewport.Height - 280);
             
             //set ball position according to player position this is open to change screen resolution.
             ball2pos = player2;
-            ball1pos = player1;
+            ball1pos = new Vector2(leftArea[2] +200, graphics.GraphicsDevice.Viewport.Height - 280);
 
 
 
@@ -305,8 +310,8 @@ namespace SpellWar {
 
             spriteBatch.Begin();
             spriteBatch.Draw(ball, ball1pos, Color.White);
-            spriteBatch.Draw(wizzard, player1, Color.White);
-            spriteBatch.Draw(wizzard, player2, Color.White);
+            spriteBatch.Draw(West_wizzard, player1, Color.White);
+            spriteBatch.Draw(East_wizzard, player2, Color.White);
             spriteBatch.DrawString(gameFont,""+timer,new Vector2(graphics.PreferredBackBufferWidth/2, 20),Color.Red);
 
             spriteBatch.Draw(ball2, ball2pos, Color.White);
