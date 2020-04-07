@@ -87,8 +87,8 @@ namespace SpellWar {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            ball = Content.Load<Texture2D>("yellowball");
-            ball2 = Content.Load<Texture2D>("yellowball");
+            ball = Content.Load<Texture2D>("West_ball");
+            ball2 = Content.Load<Texture2D>("East_ball");
             gameFont = Content.Load<SpriteFont>("gfont");
             background = Content.Load<Texture2D>("background");
 
