@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpellWar.GameObject {
+namespace SpellWar.gameObject {
     class GameObject {
        
             Texture2D _texture;

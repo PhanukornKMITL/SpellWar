@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SpellWar.GameObject {
+namespace SpellWar.gameObject {
     class Ball : GameObject {
         public Ball(Texture2D texture) : base(texture) {
 

@@ -30,6 +30,10 @@ namespace SpellWar {
             hitbox.Y = (int)position.Y;
         }
 
+       public Rectangle getRect {
+            get { return hitbox; }
+        }
+
         public int Health {
             get { return health; }
             set { health = value;}

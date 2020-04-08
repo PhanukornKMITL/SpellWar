@@ -24,6 +24,8 @@ namespace SpellWar {
         SpriteFont gameFont;
         double timer =2D;
         bool ballVisible, ball2Visible, virtualVisible;
+        Rectangle voBall, wizBall;
+        
 
 
         public MainGame() {
@@ -78,8 +80,9 @@ namespace SpellWar {
                     break;
             }
 
+           
 
-            
+
             base.Initialize();
         }
 
@@ -95,6 +98,11 @@ namespace SpellWar {
             //อันนี้ตัวอย่างใส่ตัวละครนะ ก็คือ วาดใส่ตรงนี้ได้เลย แทน wizzard
             wizzard = Content.Load<Texture2D>("wizzard");
             voodoo = Content.Load<Texture2D>("voodoo");
+
+            voBall = new Rectangle((int)ball1pos.X, (int)ball1pos.Y, ball.Width, ball.Height);
+            wizBall = new Rectangle((int)ball2pos.X, (int)ball2pos.Y, ball.Width, ball.Height);
+
+
 
             player1 = new Player(voodoo);
             player2 = new Player(wizzard);
@@ -126,8 +134,9 @@ namespace SpellWar {
 
             if(timer > 0)
             timer -= gameTime.ElapsedGameTime.TotalSeconds;
-            
-           
+
+            voBall = new Rectangle((int)ball1pos.X, (int)ball1pos.Y, ball.Width, ball.Height);
+            wizBall = new Rectangle((int)ball2pos.X, (int)ball2pos.Y, ball.Width, ball.Height);
 
             if (Singleton.Instance.gameState == Singleton.GameState.ISPLAYING) {
 
@@ -359,16 +368,27 @@ namespace SpellWar {
 
             spriteBatch.Begin();
             spriteBatch.Draw(background, GraphicsDevice.Viewport.Bounds, Color.White);
+
+            if (!isCollision(voBall,player2.getRect)) {
+                spriteBatch.Draw(wizzard, player2.Position, Color.White);
+            }
+
+
+            if (!isCollision(wizBall, player1.getRect)) {
+                spriteBatch.Draw(voodoo, player1.Position, Color.White);
+            }
+
             
-            spriteBatch.Draw(voodoo, player1.Position, Color.White);
-            spriteBatch.Draw(wizzard, player2.Position, Color.White);
+                
+            
+            
             spriteBatch.DrawString(gameFont, "" + (Math.Floor(timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Red);
 
             if (ballVisible) {
-                spriteBatch.Draw(ball, ball1pos, Color.White);
+                spriteBatch.Draw(ball, voBall, Color.White);
             }
             else if(ball2Visible){
-                spriteBatch.Draw(ball2, ball2pos, Color.White);
+                spriteBatch.Draw(ball2, wizBall, Color.White);
             }
             
            
@@ -387,6 +407,15 @@ namespace SpellWar {
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public bool isCollision(Rectangle obj1, Rectangle obj2) {
+            if (obj1.Intersects(obj2)) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
 
       
