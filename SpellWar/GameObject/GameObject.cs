@@ -10,7 +10,7 @@ namespace SpellWar.gameObject {
     class GameObject {
        
             Texture2D _texture;
-            public Vector2 Position;
+             Vector2 position;
             public Color color;
             public float Rotation;
             public Vector2 Scale;
@@ -22,11 +22,11 @@ namespace SpellWar.gameObject {
 
             public GameObject(Texture2D texture) {
                 _texture = texture;
-                Position = Vector2.Zero;
+                position = Vector2.Zero;
                 Scale = Vector2.One;
                 Rotation = 0f;
                 IsActive = true;
-                hitBox = new Rectangle((int)Position.X, (int)Position.Y, texture.Width, texture.Height);
+                hitBox = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             }
 
             public virtual void Update(GameTime gameTime, List<GameObject> gameObjects) {
@@ -40,6 +40,21 @@ namespace SpellWar.gameObject {
             public virtual void Reset() {
 
             }
+
+        public Vector2 Position {
+            get { return position; }
+            set { position = value; hitBoxPosition(position); }
         }
+
+        public void hitBoxPosition(Vector2 position) {
+            hitBox.X = (int)position.X;
+            hitBox.Y = (int)position.Y;
+        }
+
+        public Rectangle getRect {
+            get { return hitBox; }
+        }
+
+    }
     
 }

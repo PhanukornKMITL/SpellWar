@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SpellWar.gameObject;
 using System;
 
 namespace SpellWar {
@@ -24,7 +25,7 @@ namespace SpellWar {
         SpriteFont gameFont;
         double timer =2D;
         bool ballVisible, ball2Visible, virtualVisible;
-        Rectangle voBall, wizBall;
+        GameObject voBall, wizBall;
         
 
 
@@ -80,8 +81,8 @@ namespace SpellWar {
                     break;
             }
 
-           
 
+            
 
             base.Initialize();
         }
@@ -99,17 +100,16 @@ namespace SpellWar {
             wizzard = Content.Load<Texture2D>("wizzard");
             voodoo = Content.Load<Texture2D>("voodoo");
 
-            voBall = new Rectangle((int)ball1pos.X, (int)ball1pos.Y, ball.Width, ball.Height);
-            wizBall = new Rectangle((int)ball2pos.X, (int)ball2pos.Y, ball.Width, ball.Height);
+            //voBall = new Rectangle((int)ball1pos.X, (int)ball1pos.Y, ball.Width, ball.Height);
+            // wizBall = new Rectangle((int)ball2pos.X, (int)ball2pos.Y, ball.Width, ball.Height);
+
+           
 
 
 
             player1 = new Player(voodoo);
             player2 = new Player(wizzard);
-            //ballpos.X = graphics.PreferredBackBufferWidth  - ball.Width; // Place the ball in the middle
-            //ballpos.Y = graphics.GraphicsDevice.Viewport.Height - ball.Height; // Place the ball on the bottom side of the window | the ground
-            //ballpos.Y = 500;
-            //ball2pos.Y = graphics.GraphicsDevice.Viewport.Height - 148;
+          
             Reset();
             Singleton.Instance.gameState = Singleton.GameState.ISPLAYING;
 
@@ -135,8 +135,7 @@ namespace SpellWar {
             if(timer > 0)
             timer -= gameTime.ElapsedGameTime.TotalSeconds;
 
-            voBall = new Rectangle((int)ball1pos.X, (int)ball1pos.Y, ball.Width, ball.Height);
-            wizBall = new Rectangle((int)ball2pos.X, (int)ball2pos.Y, ball.Width, ball.Height);
+           
 
             if (Singleton.Instance.gameState == Singleton.GameState.ISPLAYING) {
 
@@ -233,10 +232,7 @@ namespace SpellWar {
 
                          
 
-                            //ball1pos.X = leftArea[leftSideMove];
-                            //player1.X = leftArea[leftSideMove];
-                            //ball1pos = player1;
-
+                          
 
                         }
 
@@ -245,11 +241,6 @@ namespace SpellWar {
                             if (leftSideMove < 4) {
                                 leftSideMove++;
                             }
-
-                            //Console.WriteLine(leftSideMove);
-                            //ball1pos.X = leftArea[leftSideMove];
-                            //player1.X = leftArea[leftSideMove];
-                            //ball1pos = player1;
 
                         }
 
@@ -292,24 +283,24 @@ namespace SpellWar {
                 if (kState == 1) {
 
 
-                    ball1pos.Y = (float)(vy * t2 + g * t2 * t2 / 2) + (player2.Position.Y) - ball.Height;
-                    ball1pos.X = (float)((vx * -1) * t2) + player1.Position.X;
+                    voBall.Position = new Vector2( (float)((vx * -1) * t2) + player1.Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (player2.Position.Y) - ball.Height); 
+                   
                     t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
                     ballVisible = true;
                 }
 
                 //Right to left side
                 if (kState == 2) {
-                    ball2pos.Y = (float)(vy * t2 + g * t2 * t2 / 2) + (player1.Position.Y) - ball.Height;
-                    ball2pos.X = (float)((vx) * t2) + player2.Position.X;
+                    wizBall.Position = new Vector2((float)((vx) * t2) + player2.Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (player1.Position.Y) - ball.Height); 
+                    
 
                     t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
                     ball2Visible = true;
                 }
 
 
-                if (ball2pos.Y > graphics.GraphicsDevice.Viewport.Height - ball.Height) {
-                    ball2pos.Y = graphics.GraphicsDevice.Viewport.Height - ball.Height;
+                if (wizBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball.Height) {
+                    wizBall.Position = new Vector2(wizBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball.Height); 
                     kState = 0;
                     t2 = 0;
                     Singleton.Instance.isRightTurn = false;
@@ -317,8 +308,8 @@ namespace SpellWar {
                     Reset();
                 }
 
-                if (ball1pos.Y > graphics.GraphicsDevice.Viewport.Height - ball2.Height) {
-                    ball1pos.Y = graphics.GraphicsDevice.Viewport.Height - ball2.Height;
+                if (voBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball2.Height) {
+                    voBall.Position = new Vector2( voBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball2.Height); 
                     kState = 0;
                     t2 = 0;
                     Singleton.Instance.isLeftTurn = false;
@@ -336,7 +327,8 @@ namespace SpellWar {
         }
 
         public void Reset() {
-
+            voBall = new Ball(ball2);
+            wizBall = new Ball(ball);
             virtualPos = Vector2.Zero;
             Singleton.Instance.isRightMove = false;
             Singleton.Instance.isLeftMove = false;
@@ -369,12 +361,12 @@ namespace SpellWar {
             spriteBatch.Begin();
             spriteBatch.Draw(background, GraphicsDevice.Viewport.Bounds, Color.White);
 
-            if (!isCollision(voBall,player2.getRect)) {
+            if (!isCollision(voBall.getRect,player2.getRect)) {
                 spriteBatch.Draw(wizzard, player2.Position, Color.White);
             }
 
 
-            if (!isCollision(wizBall, player1.getRect)) {
+            if (!isCollision(wizBall.getRect, player1.getRect)) {
                 spriteBatch.Draw(voodoo, player1.Position, Color.White);
             }
 
@@ -385,10 +377,10 @@ namespace SpellWar {
             spriteBatch.DrawString(gameFont, "" + (Math.Floor(timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Red);
 
             if (ballVisible) {
-                spriteBatch.Draw(ball, voBall, Color.White);
+                spriteBatch.Draw(ball, voBall.getRect, Color.White);
             }
             else if(ball2Visible){
-                spriteBatch.Draw(ball2, wizBall, Color.White);
+                spriteBatch.Draw(ball2, wizBall.getRect, Color.White);
             }
             
            
