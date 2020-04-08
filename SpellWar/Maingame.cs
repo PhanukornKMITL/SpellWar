@@ -185,6 +185,7 @@ namespace SpellWar {
                         Console.WriteLine("leftshoot"+" "+timer);
                         //Left Side
                         if (Keyboard.GetState().IsKeyDown(Keys.Right) || timer <= 0) {
+          
                             kState = 1; v = -820;
                             alpha = MathHelper.ToRadians(68f); // the angle at which the object is thrown (measured in radians)
                             vx = v * Math.Cos(alpha);
