@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SpellWar.gameObject {
-    class GameObject {
+   public class GameObject {
        
             Texture2D _texture;
              Vector2 position;
@@ -18,6 +18,7 @@ namespace SpellWar.gameObject {
             public string Name;
             public bool IsActive;
             Rectangle hitBox;
+            private int health;
 
 
             public GameObject(Texture2D texture) {
@@ -26,7 +27,7 @@ namespace SpellWar.gameObject {
                 Scale = Vector2.One;
                 Rotation = 0f;
                 IsActive = true;
-                hitBox = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+                hitBox = new Rectangle((int)position.X, (int)position.Y, texture.Width - 30, texture.Height - 30);
             }
 
             public virtual void Update(GameTime gameTime, List<GameObject> gameObjects) {
@@ -53,6 +54,10 @@ namespace SpellWar.gameObject {
 
         public Rectangle getRect {
             get { return hitBox; }
+        }
+        public int Health {
+            get { return health; }
+            set { health = value; }
         }
 
     }
