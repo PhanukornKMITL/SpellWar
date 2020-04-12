@@ -19,9 +19,11 @@ namespace SpellWar.gameObject {
             public bool IsActive;
             Rectangle hitBox;
             private int health;
+            private int walkSlot;
+            private int power;
 
 
-            public GameObject(Texture2D texture) {
+        public GameObject(Texture2D texture) {
                 _texture = texture;
                 position = Vector2.Zero;
                 Scale = Vector2.One;
@@ -59,7 +61,19 @@ namespace SpellWar.gameObject {
             get { return health; }
             set { health = value; }
         }
+        public int WalkSlot {
+            get { return walkSlot; }
+            set { walkSlot = value; }
+
+        }
+
+        public int Power {
+            get { return power; }
+            set { power = value; }
+
+        }
+
 
     }
-    
+
 }

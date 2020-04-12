@@ -36,6 +36,7 @@ namespace SpellWar.gameObject{
             base.Reset();
         }
 
+        
    
 
         

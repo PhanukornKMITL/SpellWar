@@ -27,7 +27,8 @@ namespace SpellWar {
         GameObject voBall, wizBall;
         List<GameObject> gameObjects;
         float[] leftAngle,rightAngle;
-        bool _isDecreaseHealth;
+        bool _isDecreaseHealth, canWalk;
+        int count;
         
 
 
@@ -122,11 +123,15 @@ namespace SpellWar {
 
             player1 = new Player(voodoo) {
                 Name = "Player1",
-                Health = 3
+                Health = 3,
+                WalkSlot = 1,
+                Power = 1
             };
             player2 = new Player(wizzard) {
                 Name = "Player2",
-                Health = 3
+                Health = 3,
+                WalkSlot = 1,
+                Power = 1
             };
 
             gameObjects.Add(player1);
@@ -156,8 +161,14 @@ namespace SpellWar {
 
             if(timer > 0)
             timer -= gameTime.ElapsedGameTime.TotalSeconds;
+            if(player1.Health <= 0) {
+                Singleton.Instance.gameState = Singleton.GameState.PLAYER2_WIN;     
+            }
+            if (player2.Health <= 0) {
+                Singleton.Instance.gameState = Singleton.GameState.PLAYER1_WIN;
+            }
 
-           
+
 
             if (Singleton.Instance.gameState == Singleton.GameState.ISPLAYING) {
 
@@ -169,7 +180,7 @@ namespace SpellWar {
 
                 //Turn Left To Shoot
                 if (Singleton.Instance.isLeftTurn == true) {
-
+                    
 
                     //right will move first
                     Singleton.Instance.CurrentKey = Keyboard.GetState();
@@ -179,8 +190,9 @@ namespace SpellWar {
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
 
-                            if (Singleton.Instance.rightSideMove > 0) {
+                            if (Singleton.Instance.rightSideMove > 0 ) {
                                 Singleton.Instance.rightSideMove--;
+                                
                             }
 
                            
@@ -191,6 +203,7 @@ namespace SpellWar {
 
                             if (Singleton.Instance.rightSideMove < 4) {
                                 Singleton.Instance.rightSideMove++;
+                                
                             }
 
                             
@@ -198,7 +211,7 @@ namespace SpellWar {
 
                         }
 
-                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || timer <= 0) {
                             //After right move
 
                             Singleton.Instance.isRightMove = true;
@@ -223,7 +236,7 @@ namespace SpellWar {
 
                             }
 
-                            if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+                            if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) ) {
 
                                 if (Singleton.Instance.rightSideShoot < 4) {
                                     Singleton.Instance.rightSideShoot++;
@@ -231,7 +244,7 @@ namespace SpellWar {
 
                             }
 
-                            if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+                            if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || timer <= 0) {
                                 //After left move
                                 Singleton.Instance.leftChooseShoot = true;
                                 virtualShootVisible = false;
@@ -270,7 +283,7 @@ namespace SpellWar {
                 }
                 //Turn Right To Shoot
                 else {
-
+                    
                     virtualVisible = true;
                     //Left will move first
                     Singleton.Instance.CurrentKey = Keyboard.GetState();
@@ -278,12 +291,21 @@ namespace SpellWar {
                    
 
                     if (!Singleton.Instance.isLeftMove) {
+
                        
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
-                            if (Singleton.Instance.leftSideMove > 0) {
+
+                           
+
+                            if (Singleton.Instance.leftSideMove > 0 ) { 
                                 Singleton.Instance.leftSideMove--;
+                                
+                                    count--;
+                                
+                               
+                                
                             }
 
                          
@@ -294,8 +316,10 @@ namespace SpellWar {
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
-                            if (Singleton.Instance.leftSideMove < 4) {
+                            
+                            if (Singleton.Instance.leftSideMove < 4 ) {
                                 Singleton.Instance.leftSideMove++;
+                                   count++;                  
                             }
 
                         }
@@ -325,8 +349,9 @@ namespace SpellWar {
 
                             if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
-                                if (Singleton.Instance.leftSideShoot > 0) {
+                                if (Singleton.Instance.leftSideShoot > 0 ) {
                                     Singleton.Instance.leftSideShoot--;
+                                    
                                 }
 
                             }
@@ -414,6 +439,14 @@ namespace SpellWar {
 
             }
 
+            if(Singleton.Instance.gameState == Singleton.GameState.PLAYER1_WIN){
+               //TODO When Player1 win the game...
+            }
+            if (Singleton.Instance.gameState == Singleton.GameState.PLAYER2_WIN){
+                //TODO When Player2 win the game...
+            }
+
+
             Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
             base.Update(gameTime);
@@ -430,7 +463,9 @@ namespace SpellWar {
             Singleton.Instance.isLeftMove = false;
             Singleton.Instance.leftSideMove = 2;
             Singleton.Instance.rightSideMove = 2;
+            count = 0;
             timer = 30;
+            canWalk = true;
             ballVisible = false;
             ball2Visible = false;
             virtualVisible = false;
@@ -468,13 +503,13 @@ namespace SpellWar {
             }
 
             //Draw if not collide
-            if (!isCollision(voBall,player2)) {
+            if (!isCollision(voBall,player2, player1.Power)) {
                 
                 spriteBatch.Draw(wizzard, player2.Position, Color.White);
             }
 
 
-            if (!isCollision(wizBall, player1)) {
+            if (!isCollision(wizBall, player1, player2.Power)) {
                
                 spriteBatch.Draw(voodoo, player1.Position, Color.White);
             }
@@ -529,9 +564,9 @@ namespace SpellWar {
             base.Draw(gameTime);
         }
 
-       public bool isCollision(GameObject obj1, GameObject obj2) {
+       public bool isCollision(GameObject obj1, GameObject obj2,int power) {
             if (obj1.getRect.Intersects(obj2.getRect) && _isDecreaseHealth == false) {
-                obj2.Health--;
+                obj2.Health -= power;
                 obj1 = null;
              
                 _isDecreaseHealth = true;
