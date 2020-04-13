@@ -22,7 +22,7 @@ namespace SpellWar {
         int side;
         KeyboardState kBState;
         SpriteFont gameFont;
-        double timer =2D;
+        
         bool ballVisible, ball2Visible, virtualVisible, virtualShootVisible;
         GameObject voBall, wizBall;
         List<GameObject> gameObjects;
@@ -31,6 +31,7 @@ namespace SpellWar {
         int count;
         
 
+        
 
         public MainGame() {
             graphics = new GraphicsDeviceManager(this);
@@ -44,7 +45,7 @@ namespace SpellWar {
         protected override void Initialize() {
 
             gameObjects = new List<GameObject>();
-            timer = 0;
+            Singleton.Instance.timer = 0;
             Singleton.Instance.leftSideMove = 2;
             Singleton.Instance.rightSideMove = 2;
             sideRand = new Random();
@@ -121,13 +122,15 @@ namespace SpellWar {
 
 
 
-            player1 = new Player(voodoo) {
+            player1 = new Player(voodoo, heart) {
                 Name = "Player1",
                 Health = 3,
                 WalkSlot = 1,
-                Power = 1
+                Power = 1,
+                
             };
-            player2 = new Player(wizzard) {
+          
+            player2 = new Player(wizzard, heart) {
                 Name = "Player2",
                 Health = 3,
                 WalkSlot = 1,
@@ -157,10 +160,10 @@ namespace SpellWar {
         double v, vx, vy, alpha, t2 = 0;
         //----------------------------------------------------------------------//
         protected override void Update(GameTime gameTime) {
+            Console.WriteLine(graphics.GraphicsDevice.Viewport.Height);
 
-
-            if(timer > 0)
-            timer -= gameTime.ElapsedGameTime.TotalSeconds;
+            if(Singleton.Instance.timer > 0)
+                Singleton.Instance.timer -= gameTime.ElapsedGameTime.TotalSeconds;
             if(player1.Health <= 0) {
                 Singleton.Instance.gameState = Singleton.GameState.PLAYER2_WIN;     
             }
@@ -168,15 +171,11 @@ namespace SpellWar {
                 Singleton.Instance.gameState = Singleton.GameState.PLAYER1_WIN;
             }
 
-
-
             if (Singleton.Instance.gameState == Singleton.GameState.ISPLAYING) {
 
                 // Allows the game to exit
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                     this.Exit();
-
-
 
                 //Turn Left To Shoot
                 if (Singleton.Instance.isLeftTurn == true) {
@@ -195,9 +194,6 @@ namespace SpellWar {
                                 count--;
                                 
                             }
-
-                           
-
                         }
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
@@ -208,14 +204,10 @@ namespace SpellWar {
                                 
                             }
 
-                            
-                            
-
                         }
 
-                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || timer <= 0) {
+                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || Singleton.Instance.timer <= 0) {
                             //After right move
-
                             Singleton.Instance.isRightMove = true;
                         }
                     }
@@ -224,7 +216,7 @@ namespace SpellWar {
                     //Left Side Can Shoot Now
                     else if (Singleton.Instance.isRightMove) {
                         virtualVisible = false;
-                        Console.WriteLine("leftshoot"+" "+timer);
+                        Console.WriteLine("leftshoot"+" "+ Singleton.Instance.timer);
 
                         if (!Singleton.Instance.leftChooseShoot) {
                             virtualShootVisible = true;
@@ -246,30 +238,20 @@ namespace SpellWar {
 
                             }
 
-                            if ((Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || timer <= 0) {
+                            if ((Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || Singleton.Instance.timer <= 0) {
                                 //After left move
                                 Singleton.Instance.leftChooseShoot = true;
                                 virtualShootVisible = false;
-                                kState = 1; v = -820;
-                                // rightAngle
-
-                                alpha = Singleton.Instance.shootPosRight[Singleton.Instance.rightSideShoot];
-
-
-                                Console.WriteLine(alpha);
-                                vx = v * Math.Cos(alpha);
-                                vy = v * Math.Sin(alpha);
-
-
+                                kState = 1;
                                 player2.Position = new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove], graphics.GraphicsDevice.Viewport.Height - 170);
 
                             }
 
                         }
                  }
-                    if (timer <= 0) {
+                    if (Singleton.Instance.timer <= 0) {
                         Singleton.Instance.isRightMove = true;
-                        timer = 3;
+                        Singleton.Instance.timer = 3;
                     }
 
 
@@ -287,7 +269,7 @@ namespace SpellWar {
                     if (!Singleton.Instance.isLeftMove) {
 
 
-                        Console.WriteLine(count);
+                        
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
@@ -299,9 +281,6 @@ namespace SpellWar {
                                 
                                     Singleton.Instance.leftSideMove--;
                                     count--;
-                                
-                               
-   
                             }
 
 
@@ -313,9 +292,7 @@ namespace SpellWar {
                             if (Singleton.Instance.leftSideMove < 4 && player1.WalkSlot - (count + 1) >= 0) {
                               
                                      Singleton.Instance.leftSideMove++;
-                                     count++; 
-                                
-                                                
+                                     count++;            
                             }
 
                         }
@@ -326,9 +303,9 @@ namespace SpellWar {
                             
                         }
 
-                        if (timer <= 0) {
+                        if (Singleton.Instance.timer <= 0) {
                             Singleton.Instance.isLeftMove = true;
-                            timer = 3;
+                            Singleton.Instance.timer = 3;
                         }
                     }
 
@@ -360,25 +337,12 @@ namespace SpellWar {
 
                             }
 
-                            if ((Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || timer <= 0 ) {
+                            if ((Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || Singleton.Instance.timer <= 0 ) {
                                 //After left move
                                 Singleton.Instance.rightChooseShoot = true;
                                 virtualShootVisible = false;
 
-                                kState = 2; v = -820;
-
-                                //leftAngle
-
-                                alpha = Singleton.Instance.shootPosLeft[Singleton.Instance.leftSideShoot];
-
-
-
-
-
-                                Console.WriteLine(alpha);
-                                vx = v * Math.Cos(alpha);
-                                vy = v * Math.Sin(alpha);
-
+                                kState = 2; 
                                 player1.Position = new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], graphics.GraphicsDevice.Viewport.Height - 170);
 
 
@@ -395,23 +359,25 @@ namespace SpellWar {
                 //Projectile Part
                 if (kState == 1) {
 
+                    //voBall.Position = new Vector2((float)((vx * -1) * t2) + player1.Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (player2.Position.Y) - ball.Height);
+                    voBall.Update(gameTime, gameObjects);
 
-                    voBall.Position = new Vector2( (float)((vx * -1) * t2) + player1.Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (player2.Position.Y) - ball.Height); 
-                   
                     t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
                     ballVisible = true;
                 }
 
                 //Right to left side
                 if (kState == 2) {
-                    wizBall.Position = new Vector2((float)((vx) * t2) + player2.Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (player1.Position.Y) - ball.Height); 
-                    
+                    //wizBall.Position = new Vector2((float)((vx) * t2) + player2.Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (player1.Position.Y) - ball.Height);
+                    wizBall.Update(gameTime, gameObjects);
 
                     t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
                     ball2Visible = true;
                 }
 
 
+
+                // Check ว่าถ้าบอลตกถึงพื้นก็จะให้ สลับฝั่ง
                 if (wizBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball.Height) {
                     wizBall.Position = new Vector2(wizBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball.Height); 
                     kState = 0;
@@ -449,17 +415,26 @@ namespace SpellWar {
 
         public void Reset() {
 
-            voBall = new Ball(ball2);
-            wizBall = new Ball(ball);
+            
+            voBall = new Ball(ball) {
+                Name = "voBall"
+
+            };
+            wizBall = new Ball(ball2) {
+                Name = "wizBall"
+
+            };
             gameObjects.Add(voBall);
             gameObjects.Add(wizBall);
+
+            
             virtualPos = Vector2.Zero;
             Singleton.Instance.isRightMove = false;
             Singleton.Instance.isLeftMove = false;
             Singleton.Instance.leftSideMove = 2;
             Singleton.Instance.rightSideMove = 2;
             count = 0;
-            timer = 30;
+            Singleton.Instance.timer = 30;
             canWalk = true;
             ballVisible = false;
             ball2Visible = false;
@@ -471,17 +446,16 @@ namespace SpellWar {
             Singleton.Instance.leftSideShoot = 2;
             Singleton.Instance.rightSideShoot = 2;
 
-            //Right Player
-            player2.Position = new Vector2(Singleton.Instance.rightArea[2] , graphics.GraphicsDevice.Viewport.Height - 170);
-            //Left Player
-            player1.Position= new Vector2(Singleton.Instance.leftArea[2], graphics.GraphicsDevice.Viewport.Height - 170 );
-
+          
 
 
             //set ball position according to player position this is open to change screen resolution.
             ball2pos = player2.Position;
             ball1pos = player1.Position;
 
+            foreach (GameObject g in gameObjects) {
+                g.Reset();
+            }
 
 
         }
@@ -493,43 +467,30 @@ namespace SpellWar {
             spriteBatch.Begin();
             spriteBatch.Draw(background, GraphicsDevice.Viewport.Bounds, Color.White);
            
-            foreach(GameObject g in gameObjects) {
-                g.Draw(spriteBatch);
-            }
+            
 
             //Draw if not collide
             if (!isCollision(voBall,player2, player1.Power)) {
-                
-                spriteBatch.Draw(wizzard, player2.Position, Color.White);
+
+
+                player2.Draw(spriteBatch);
             }
 
 
             if (!isCollision(wizBall, player1, player2.Power)) {
-               
-                spriteBatch.Draw(voodoo, player1.Position, Color.White);
+
+                player1.Draw(spriteBatch);
             }
 
-
-            //Draw Heart
-            for (int i = 0; i < player1.Health; i++) {
-                spriteBatch.Draw(heart, new Vector2(3 + i * heart.Width,3 ), Color.White);
-            }
-            
-
-            for (int i = 0; i < player2.Health; i++) {
-                spriteBatch.Draw(heart, new Vector2((graphics.PreferredBackBufferWidth - heart.Width) - (i * heart.Width) , 3), Color.White);
-            }
-
-
-
-
-                spriteBatch.DrawString(gameFont, "" + (Math.Floor(timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Red);
+                spriteBatch.DrawString(gameFont, "" + (Math.Floor(Singleton.Instance.timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Red);
 
             if (ballVisible) {
-                spriteBatch.Draw(ball, voBall.getRect, Color.White);
+                voBall.Draw(spriteBatch);
+                
             }
             else if(ball2Visible){
-                spriteBatch.Draw(ball2, wizBall.getRect, Color.White);
+                wizBall.Draw(spriteBatch);
+                
             }
             
            

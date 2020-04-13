@@ -18,6 +18,7 @@ namespace SpellWar {
         public int leftSideMove, rightSideMove, leftSideShoot = 2, rightSideShoot = 2;
         public bool isLeftTurn, isRightTurn, isLeftMove = false, isRightMove = false, leftChooseShoot = false, rightChooseShoot = false;
         public KeyboardState PreviousKey, CurrentKey;
+        public double timer = 2D;
 
         public GameState gameState;
 
