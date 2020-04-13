@@ -79,7 +79,7 @@ namespace SpellWar.gameObject{
 
 
                         if (this.Name.Equals("Player1") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) ) {
-                            Console.WriteLine(this.Name);
+                           
                             if (Singleton.Instance.rightSideShoot > 0) {
                                 Singleton.Instance.rightSideShoot--;
                             }
@@ -114,15 +114,14 @@ namespace SpellWar.gameObject{
 
             }
 
-          /*//Turn Right To Shoot
+          //============ Turn Right To Shoot ================ 
             else if(Singleton.Instance.isRightTurn){
 
                 
                 Singleton.Instance.virtualVisible = true;
+
                 //Left will move first
                 Singleton.Instance.CurrentKey = Keyboard.GetState();
-                //ball1pos.X = leftArea[1];
-
 
                 if (!Singleton.Instance.isLeftMove) {
                     
@@ -153,17 +152,13 @@ namespace SpellWar.gameObject{
                     }
 
                     if (this.Name.Equals("Player1") && (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || Singleton.Instance.timer <= 0)) {
-
                         //After left move
+                            Singleton.Instance.isLeftMove = true;
                         
-                        Singleton.Instance.isLeftMove = true;
-                        
+                        Console.WriteLine(this.Name);
                     }
 
-                    if (Singleton.Instance.timer <= 0) {
-                        Singleton.Instance.isLeftMove = true;
-                        Singleton.Instance.timer = 3;
-                    }
+                    
                 }
 
 
@@ -175,9 +170,8 @@ namespace SpellWar.gameObject{
 
                     if (!Singleton.Instance.rightChooseShoot) {
 
-                        Console.WriteLine(this.Name);
-
                         Singleton.Instance.virtualShootVisible = true;
+
                         if (this.Name.Equals("Player2") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
                             if (Singleton.Instance.leftSideShoot > 0) {
@@ -188,19 +182,19 @@ namespace SpellWar.gameObject{
                         }
 
                         if (this.Name.Equals("Player2") &&  Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
-
+                            
                             if (Singleton.Instance.leftSideShoot < 4) {
                                 Singleton.Instance.leftSideShoot++;
                             }
 
                         }
 
-                        if (this.Name.Equals("Player2") &&  (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || Singleton.Instance.timer <= 0) {
+                        if ((this.Name.Equals("Player2") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Up) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || Singleton.Instance.timer <= 0) {
                             //After left move
-                           
+                            Console.WriteLine(this.Name);
+                            
                             Singleton.Instance.rightChooseShoot = true;
                             Singleton.Instance.virtualShootVisible = false;
-
                             Singleton.Instance.kState = 2;
                             gameObjects.Single(s => s.Name.Equals("Player1")).Position = new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], 920 - 170);
 
@@ -209,16 +203,21 @@ namespace SpellWar.gameObject{
 
                     }
 
-                        
                 }
-                
+                if (Singleton.Instance.timer <= 0) {
+                    Singleton.Instance.isLeftMove = true;
+                    Singleton.Instance.timer = 3;
+                }
+
+
+
 
             }
 
-            */
 
 
 
+            
 
         }
 

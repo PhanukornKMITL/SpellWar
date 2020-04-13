@@ -81,10 +81,9 @@ namespace SpellWar {
                 Singleton.Instance.leftArea[i] = ((graphics.PreferredBackBufferWidth / 2) / 5) * i;
                 Singleton.Instance.rightArea[i] = (((graphics.PreferredBackBufferWidth / 2) / 5) * (i + 5));
             }
-            //side = sideRand.Next(0, 2);
-
-            //Console.WriteLine(side);
-            side = 0;
+            side = sideRand.Next(0, 2);
+            
+            
 
             switch (side) {
                 case 0:
@@ -183,14 +182,9 @@ namespace SpellWar {
 
                 }
                 
-
-                
-        
-           
-
                 // Check ว่าถ้าบอลตกถึงพื้นก็จะให้ สลับฝั่ง
                 if (wizBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball.Height) {
-                    Console.WriteLine("wizBall Bug "+ wizBall.Position);
+                    
                     wizBall.Position = new Vector2(wizBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball.Height);
                     Singleton.Instance.kState = 0;
                     t2 = 0;
@@ -200,7 +194,7 @@ namespace SpellWar {
                 }
 
                 if (voBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball2.Height) {
-                    Console.WriteLine("voBall Bug");
+                    
                     voBall.Position = new Vector2( voBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball2.Height);
                     Singleton.Instance.kState = 0;
                     t2 = 0;
