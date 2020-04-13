@@ -20,7 +20,7 @@ namespace SpellWar.gameObject {
 
         public Ball(Texture2D texture) : base(texture) {
             this.texture = texture;
-
+           
         }
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjects) {
@@ -35,31 +35,35 @@ namespace SpellWar.gameObject {
 
             else if(Singleton.Instance.rightChooseShoot) {
                 alpha = Singleton.Instance.shootPosLeft[Singleton.Instance.leftSideShoot];
-
-
-
-
-
-                Console.WriteLine(alpha);
                 vx = v * Math.Cos(alpha);
                 vy = v * Math.Sin(alpha);
             }
 
+            //Projectile Part
+            if (Singleton.Instance.kState == 1) {
 
+                if (this.Name.Equals("voBall")) {
 
+                    this.Position = new Vector2((float)((vx * -1) * t2) + gameObjects.Single(s => s.Name.Equals("Player1")).Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (gameObjects.Single(s => s.Name.Equals("Player2")).Position.Y) - texture.Height);
 
+                    t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
+                }
+                Singleton.Instance.ballVisible = true;
+            }
 
-            if (this.Name.Equals("voBall")) {
+            //Right to left side
+            if (Singleton.Instance.kState == 2) {
 
-                this.Position = new Vector2((float)((vx * -1) * t2) + gameObjects.Single(s => s.Name.Equals("Player1")).Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (gameObjects.Single(s => s.Name.Equals("Player2")).Position.Y) - texture.Height);
+                this.Position = new Vector2((float)((vx) * t2) + gameObjects.Single(s => s.Name.Equals("Player2")).Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (gameObjects.Single(s => s.Name.Equals("Player1")).Position.Y) - texture.Height);
 
                 t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
-            }
-            else {
-                this.Position = new Vector2((float)((vx ) * t2) + gameObjects.Single(s => s.Name.Equals("Player2")).Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (gameObjects.Single(s => s.Name.Equals("Player1")).Position.Y) - texture.Height);
-                
+
                 t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
+                Singleton.Instance.ball2Visible = true;
             }
+
+           
+           
 
 
 

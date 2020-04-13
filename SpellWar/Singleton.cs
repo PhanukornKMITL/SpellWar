@@ -19,6 +19,9 @@ namespace SpellWar {
         public bool isLeftTurn, isRightTurn, isLeftMove = false, isRightMove = false, leftChooseShoot = false, rightChooseShoot = false;
         public KeyboardState PreviousKey, CurrentKey;
         public double timer = 2D;
+        public int count;
+        public bool ballVisible, ball2Visible, virtualVisible, virtualShootVisible;
+        public int kState = 0;
 
         public GameState gameState;
 

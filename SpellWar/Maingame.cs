@@ -23,12 +23,12 @@ namespace SpellWar {
         KeyboardState kBState;
         SpriteFont gameFont;
         
-        bool ballVisible, ball2Visible, virtualVisible, virtualShootVisible;
+        
         GameObject voBall, wizBall;
         List<GameObject> gameObjects;
         float[] leftAngle,rightAngle;
         bool _isDecreaseHealth, canWalk;
-        int count;
+        
         
 
         
@@ -81,9 +81,10 @@ namespace SpellWar {
                 Singleton.Instance.leftArea[i] = ((graphics.PreferredBackBufferWidth / 2) / 5) * i;
                 Singleton.Instance.rightArea[i] = (((graphics.PreferredBackBufferWidth / 2) / 5) * (i + 5));
             }
-            side = sideRand.Next(0, 2);
+            //side = sideRand.Next(0, 2);
 
             //Console.WriteLine(side);
+            side = 0;
 
             switch (side) {
                 case 0:
@@ -156,11 +157,11 @@ namespace SpellWar {
         double vi, t = 0; // vi - initial velocity | t - time
         double g = 520; // pixels per second squared | gravitational acceleration
         int keyState = 0;
-        int kState = 0;
+       
         double v, vx, vy, alpha, t2 = 0;
         //----------------------------------------------------------------------//
         protected override void Update(GameTime gameTime) {
-            Console.WriteLine(graphics.GraphicsDevice.Viewport.Height);
+            
 
             if(Singleton.Instance.timer > 0)
                 Singleton.Instance.timer -= gameTime.ElapsedGameTime.TotalSeconds;
@@ -177,210 +178,21 @@ namespace SpellWar {
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                     this.Exit();
 
-                //Turn Left To Shoot
-                if (Singleton.Instance.isLeftTurn == true) {
-                    
-
-                    //right will move first
-                    Singleton.Instance.CurrentKey = Keyboard.GetState();
-                   
-                    virtualVisible = true;
-                    if (!Singleton.Instance.isRightMove) {
-                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
-
-
-                            if (Singleton.Instance.rightSideMove > 0 && player2.WalkSlot + (count - 1) >= 0) {
-                                Singleton.Instance.rightSideMove--;
-                                count--;
-                                
-                            }
-                        }
-
-                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
-
-                            if (Singleton.Instance.rightSideMove < 4 && player2.WalkSlot - (count + 1) >= 0) {
-                                Singleton.Instance.rightSideMove++;
-                                count++;
-                                
-                            }
-
-                        }
-
-                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || Singleton.Instance.timer <= 0) {
-                            //After right move
-                            Singleton.Instance.isRightMove = true;
-                        }
-                    }
-
-
-                    //Left Side Can Shoot Now
-                    else if (Singleton.Instance.isRightMove) {
-                        virtualVisible = false;
-                        Console.WriteLine("leftshoot"+" "+ Singleton.Instance.timer);
-
-                        if (!Singleton.Instance.leftChooseShoot) {
-                            virtualShootVisible = true;
-
-
-                            if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
-
-                                if (Singleton.Instance.rightSideShoot > 0) {
-                                    Singleton.Instance.rightSideShoot--;
-                                }
-
-                            }
-
-                            if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) ) {
-
-                                if (Singleton.Instance.rightSideShoot < 4) {
-                                    Singleton.Instance.rightSideShoot++;
-                                }
-
-                            }
-
-                            if ((Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || Singleton.Instance.timer <= 0) {
-                                //After left move
-                                Singleton.Instance.leftChooseShoot = true;
-                                virtualShootVisible = false;
-                                kState = 1;
-                                player2.Position = new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove], graphics.GraphicsDevice.Viewport.Height - 170);
-
-                            }
-
-                        }
-                 }
-                    if (Singleton.Instance.timer <= 0) {
-                        Singleton.Instance.isRightMove = true;
-                        Singleton.Instance.timer = 3;
-                    }
-
-
+                foreach(GameObject g in gameObjects) {
+                    g.Update(gameTime, gameObjects);
 
                 }
-                //Turn Right To Shoot
-                else {
-                    
-                    virtualVisible = true;
-                    //Left will move first
-                    Singleton.Instance.CurrentKey = Keyboard.GetState();
-                    //ball1pos.X = leftArea[1];
-                   
+                
 
-                    if (!Singleton.Instance.isLeftMove) {
-
-
-                        
-
-                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
-
-
-                           
-
-                            if (Singleton.Instance.leftSideMove > 0  && player1.WalkSlot + (count - 1) >= 0) {
-
-                                
-                                    Singleton.Instance.leftSideMove--;
-                                    count--;
-                            }
-
-
-                        }
-
-                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
-
-                            
-                            if (Singleton.Instance.leftSideMove < 4 && player1.WalkSlot - (count + 1) >= 0) {
-                              
-                                     Singleton.Instance.leftSideMove++;
-                                     count++;            
-                            }
-
-                        }
-
-                        if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
-                            //After left move
-                            Singleton.Instance.isLeftMove = true;
-                            
-                        }
-
-                        if (Singleton.Instance.timer <= 0) {
-                            Singleton.Instance.isLeftMove = true;
-                            Singleton.Instance.timer = 3;
-                        }
-                    }
-
-
-                    else if (Singleton.Instance.isLeftMove) {
-                        
-                        virtualVisible = false;
-
-                        //Right Side Can Shoot Now
-
-                        if (!Singleton.Instance.rightChooseShoot) {
-                            virtualShootVisible = true;
-
-
-                            if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
-
-                                if (Singleton.Instance.leftSideShoot > 0 ) {
-                                    Singleton.Instance.leftSideShoot--;
-                                    
-                                }
-
-                            }
-
-                            if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
-
-                                if (Singleton.Instance.leftSideShoot < 4) {
-                                    Singleton.Instance.leftSideShoot++;
-                                }
-
-                            }
-
-                            if ((Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || Singleton.Instance.timer <= 0 ) {
-                                //After left move
-                                Singleton.Instance.rightChooseShoot = true;
-                                virtualShootVisible = false;
-
-                                kState = 2; 
-                                player1.Position = new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], graphics.GraphicsDevice.Viewport.Height - 170);
-
-
-                            }
-
-                        }
-                        
-                       
-                    }
-
-                }
-
-
-                //Projectile Part
-                if (kState == 1) {
-
-                    //voBall.Position = new Vector2((float)((vx * -1) * t2) + player1.Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (player2.Position.Y) - ball.Height);
-                    voBall.Update(gameTime, gameObjects);
-
-                    t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
-                    ballVisible = true;
-                }
-
-                //Right to left side
-                if (kState == 2) {
-                    //wizBall.Position = new Vector2((float)((vx) * t2) + player2.Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (player1.Position.Y) - ball.Height);
-                    wizBall.Update(gameTime, gameObjects);
-
-                    t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
-                    ball2Visible = true;
-                }
-
-
+                
+        
+           
 
                 // Check ว่าถ้าบอลตกถึงพื้นก็จะให้ สลับฝั่ง
                 if (wizBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball.Height) {
-                    wizBall.Position = new Vector2(wizBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball.Height); 
-                    kState = 0;
+                    Console.WriteLine("wizBall Bug "+ wizBall.Position);
+                    wizBall.Position = new Vector2(wizBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball.Height);
+                    Singleton.Instance.kState = 0;
                     t2 = 0;
                     Singleton.Instance.isRightTurn = false;
                     Singleton.Instance.isLeftTurn = true;
@@ -388,14 +200,15 @@ namespace SpellWar {
                 }
 
                 if (voBall.Position.Y > graphics.GraphicsDevice.Viewport.Height - ball2.Height) {
-                    voBall.Position = new Vector2( voBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball2.Height); 
-                    kState = 0;
+                    Console.WriteLine("voBall Bug");
+                    voBall.Position = new Vector2( voBall.Position.X, graphics.GraphicsDevice.Viewport.Height - ball2.Height);
+                    Singleton.Instance.kState = 0;
                     t2 = 0;
                     Singleton.Instance.isLeftTurn = false;
                     Singleton.Instance.isRightTurn = true;
                     Reset();
                 }
-
+                
 
 
             }
@@ -433,13 +246,13 @@ namespace SpellWar {
             Singleton.Instance.isLeftMove = false;
             Singleton.Instance.leftSideMove = 2;
             Singleton.Instance.rightSideMove = 2;
-            count = 0;
+            Singleton.Instance.count = 0;
             Singleton.Instance.timer = 30;
             canWalk = true;
-            ballVisible = false;
-            ball2Visible = false;
-            virtualVisible = false;
-            virtualShootVisible = false;
+            Singleton.Instance.ballVisible = false;
+            Singleton.Instance.ball2Visible = false;
+            Singleton.Instance.virtualVisible = false;
+            Singleton.Instance.virtualShootVisible = false;
             _isDecreaseHealth = false;
             Singleton.Instance.rightChooseShoot = false;
             Singleton.Instance.leftChooseShoot  = false;
@@ -484,18 +297,18 @@ namespace SpellWar {
 
                 spriteBatch.DrawString(gameFont, "" + (Math.Floor(Singleton.Instance.timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Red);
 
-            if (ballVisible) {
+            if (Singleton.Instance.ballVisible) {
                 voBall.Draw(spriteBatch);
                 
             }
-            else if(ball2Visible){
+            else if (Singleton.Instance.ball2Visible){
                 wizBall.Draw(spriteBatch);
                 
             }
             
            
             spriteBatch.Draw(rect, coor, Color.White);
-            if (virtualVisible) {
+            if (Singleton.Instance.virtualVisible) {
                 if (Singleton.Instance.isLeftTurn) {
                     spriteBatch.Draw(virtualBox, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove] , 700), Color.White * 0.5f);
                 }
@@ -504,7 +317,7 @@ namespace SpellWar {
                 }
                  
             }
-            if (virtualShootVisible) {
+            if (Singleton.Instance.virtualShootVisible) {
                 if (Singleton.Instance.isLeftMove && !Singleton.Instance.rightChooseShoot) {
                     spriteBatch.Draw(virtualShoot, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideShoot], 700), Color.White * 0.5f);
                 }
