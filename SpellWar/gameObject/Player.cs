@@ -21,6 +21,13 @@ namespace SpellWar.gameObject{
         }
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjects) {
+            if (this.Name.Equals("Player1")) {
+
+            }
+            else {
+
+            }
+
 
            
 

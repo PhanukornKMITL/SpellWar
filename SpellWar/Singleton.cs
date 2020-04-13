@@ -43,13 +43,13 @@ namespace SpellWar {
             //leftAngle
             shootPosLeft[0] = MathHelper.ToRadians(62f);
             shootPosLeft[1] = MathHelper.ToRadians(70f);
-            shootPosLeft[2] = MathHelper.ToRadians(75f);
+            shootPosLeft[2] = MathHelper.ToRadians(73f);
             shootPosLeft[3] = MathHelper.ToRadians(77.025f);
             shootPosLeft[4] = MathHelper.ToRadians(79.97f);
 
             shootPosRight[0] = MathHelper.ToRadians(77.7f);
             shootPosRight[1] = MathHelper.ToRadians(77.025f);
-            shootPosRight[2] = MathHelper.ToRadians(69f);
+            shootPosRight[2] = MathHelper.ToRadians(70f);
             shootPosRight[3] = MathHelper.ToRadians(66.67f);
             shootPosRight[4] = MathHelper.ToRadians(61f);
 

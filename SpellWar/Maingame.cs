@@ -190,8 +190,9 @@ namespace SpellWar {
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
 
-                            if (Singleton.Instance.rightSideMove > 0 ) {
+                            if (Singleton.Instance.rightSideMove > 0 && player2.WalkSlot + (count - 1) >= 0) {
                                 Singleton.Instance.rightSideMove--;
+                                count--;
                                 
                             }
 
@@ -201,8 +202,9 @@ namespace SpellWar {
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
-                            if (Singleton.Instance.rightSideMove < 4) {
+                            if (Singleton.Instance.rightSideMove < 4 && player2.WalkSlot - (count + 1) >= 0) {
                                 Singleton.Instance.rightSideMove++;
+                                count++;
                                 
                             }
 
@@ -244,35 +246,27 @@ namespace SpellWar {
 
                             }
 
-                            if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || timer <= 0) {
+                            if ((Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || timer <= 0) {
                                 //After left move
                                 Singleton.Instance.leftChooseShoot = true;
                                 virtualShootVisible = false;
+                                kState = 1; v = -820;
+                                // rightAngle
+
+                                alpha = Singleton.Instance.shootPosRight[Singleton.Instance.rightSideShoot];
+
+
+                                Console.WriteLine(alpha);
+                                vx = v * Math.Cos(alpha);
+                                vy = v * Math.Sin(alpha);
+
+
+                                player2.Position = new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove], graphics.GraphicsDevice.Viewport.Height - 170);
 
                             }
 
                         }
-
-
-                        //Left Side
-                        if (Singleton.Instance.leftChooseShoot && Keyboard.GetState().IsKeyDown(Keys.Right) || timer <= 0) {
-          
-                            kState = 1; v = -820;
-                            // rightAngle
-
-                            alpha = Singleton.Instance.shootPosRight[Singleton.Instance.rightSideShoot];
-
-
-                            Console.WriteLine(alpha);
-                            vx = v * Math.Cos(alpha);
-                            vy = v * Math.Sin(alpha);
-
-
-                            player2.Position = new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove], graphics.GraphicsDevice.Viewport.Height - 170);
-
-                        }
-
-                    }
+                 }
                     if (timer <= 0) {
                         Singleton.Instance.isRightMove = true;
                         timer = 3;
@@ -292,34 +286,36 @@ namespace SpellWar {
 
                     if (!Singleton.Instance.isLeftMove) {
 
-                       
+
+                        Console.WriteLine(count);
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
 
                            
 
-                            if (Singleton.Instance.leftSideMove > 0 ) { 
-                                Singleton.Instance.leftSideMove--;
+                            if (Singleton.Instance.leftSideMove > 0  && player1.WalkSlot + (count - 1) >= 0) {
+
                                 
+                                    Singleton.Instance.leftSideMove--;
                                     count--;
                                 
                                
-                                
+   
                             }
 
-                         
-
-                          
 
                         }
 
                         if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
 
                             
-                            if (Singleton.Instance.leftSideMove < 4 ) {
-                                Singleton.Instance.leftSideMove++;
-                                   count++;                  
+                            if (Singleton.Instance.leftSideMove < 4 && player1.WalkSlot - (count + 1) >= 0) {
+                              
+                                     Singleton.Instance.leftSideMove++;
+                                     count++; 
+                                
+                                                
                             }
 
                         }
@@ -364,34 +360,33 @@ namespace SpellWar {
 
                             }
 
-                            if (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+                            if ((Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || timer <= 0 ) {
                                 //After left move
                                 Singleton.Instance.rightChooseShoot = true;
                                 virtualShootVisible = false;
+
+                                kState = 2; v = -820;
+
+                                //leftAngle
+
+                                alpha = Singleton.Instance.shootPosLeft[Singleton.Instance.leftSideShoot];
+
+
+
+
+
+                                Console.WriteLine(alpha);
+                                vx = v * Math.Cos(alpha);
+                                vy = v * Math.Sin(alpha);
+
+                                player1.Position = new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], graphics.GraphicsDevice.Viewport.Height - 170);
+
 
                             }
 
                         }
                         
-                        if ( Singleton.Instance.rightChooseShoot && Keyboard.GetState().IsKeyDown(Keys.Left) ||  timer <= 0 ) {
-                            kState = 2; v = -820;
-
-                            //leftAngle
-
-                            alpha = Singleton.Instance.shootPosLeft[Singleton.Instance.leftSideShoot];
-
-                           
-
-
-
-                            Console.WriteLine(alpha);
-                            vx = v * Math.Cos(alpha);
-                            vy = v * Math.Sin(alpha);
-
-                            player1.Position = new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], graphics.GraphicsDevice.Viewport.Height - 170);
-
-
-                        }
+                       
                     }
 
                 }

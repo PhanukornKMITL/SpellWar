@@ -44,6 +44,10 @@ namespace SpellWar.gameObject {
 
             }
 
+           public virtual void Action() {
+
+            }
+
         public Vector2 Position {
             get { return position; }
             set { position = value; hitBoxPosition(position); }

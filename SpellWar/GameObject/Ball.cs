@@ -7,7 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SpellWar.gameObject {
-    class Ball : GameObject {
+   public class Ball : GameObject {
+
         public Ball(Texture2D texture) : base(texture) {
 
 
