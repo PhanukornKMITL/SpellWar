@@ -94,7 +94,7 @@ namespace SpellWar.gameObject{
 
                         }
 
-                        if (this.Name.Equals("Player1") &&  ((Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || Singleton.Instance.timer <= 0) ) {
+                        if (this.Name.Equals("Player1") &&  ((Singleton.Instance.CurrentKey.IsKeyDown(Keys.Up) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || Singleton.Instance.timer <= 0) ) {
                             //After left move
                             Singleton.Instance.leftChooseShoot = true;
                             Singleton.Instance.virtualShootVisible = false;
@@ -169,7 +169,7 @@ namespace SpellWar.gameObject{
                     //Right Side Can Shoot Now
 
                     if (!Singleton.Instance.rightChooseShoot) {
-
+                        
                         Singleton.Instance.virtualShootVisible = true;
 
                         if (this.Name.Equals("Player2") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
@@ -191,7 +191,7 @@ namespace SpellWar.gameObject{
 
                         if ((this.Name.Equals("Player2") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Up) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) || Singleton.Instance.timer <= 0) {
                             //After left move
-                            Console.WriteLine(this.Name);
+                            //Console.WriteLine(this.Name);
                             
                             Singleton.Instance.rightChooseShoot = true;
                             Singleton.Instance.virtualShootVisible = false;

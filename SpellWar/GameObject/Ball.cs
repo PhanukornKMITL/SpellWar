@@ -53,12 +53,12 @@ namespace SpellWar.gameObject {
 
             //Right to left side
             if (Singleton.Instance.kState == 2) {
+                if (this.Name.Equals("wizBall")) {
+                    this.Position = new Vector2((float)((vx) * t2) + gameObjects.Single(s => s.Name.Equals("Player2")).Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (gameObjects.Single(s => s.Name.Equals("Player1")).Position.Y) - texture.Height);
 
-                this.Position = new Vector2((float)((vx) * t2) + gameObjects.Single(s => s.Name.Equals("Player2")).Position.X, (float)(vy * t2 + g * t2 * t2 / 2) + (gameObjects.Single(s => s.Name.Equals("Player1")).Position.Y) - texture.Height);
-
-                t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
-
-                t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
+                    t2 = t2 + gameTime.ElapsedGameTime.TotalSeconds;
+                }
+               
                 Singleton.Instance.ball2Visible = true;
             }
 
