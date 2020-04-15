@@ -12,7 +12,7 @@ namespace SpellWar.gameObject{
         Vector2 position= Vector2.Zero;
         Texture2D texture, heart;
         Rectangle hitBox;
-        
+        AnimatedSprite animated;
        
 
         public Player(Texture2D texture, Texture2D heart) : base(texture) {
