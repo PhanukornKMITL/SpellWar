@@ -20,7 +20,7 @@ namespace SpellWar.gameObject {
 
         public AnimatedSprite(Texture2D texture, int rows, int columns)
         {
-            Texture = texture;
+            this.Texture = texture;
             Rows = rows;
             Columns = columns;
             currentFrame = 0;
@@ -59,9 +59,7 @@ namespace SpellWar.gameObject {
             Rectangle sourceRectangle = new Rectangle(width * SpriteColumn, height * Row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
-            spriteBatch.Begin();
             spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
-            spriteBatch.End();
         }
     }
 }

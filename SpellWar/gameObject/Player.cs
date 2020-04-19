@@ -18,6 +18,7 @@ namespace SpellWar.gameObject{
         public Player(Texture2D texture, Texture2D heart) : base(texture) {
             this.texture = texture;
             this.heart = heart;
+            this.animated = new AnimatedSprite(this.texture,3,4);
            
         }
 
@@ -82,6 +83,7 @@ namespace SpellWar.gameObject{
                            
                             if (Singleton.Instance.rightSideShoot > 0) {
                                 Singleton.Instance.rightSideShoot--;
+
                             }
 
                         }
@@ -213,17 +215,17 @@ namespace SpellWar.gameObject{
 
 
             }
+            animated.Update(gameTime);
 
 
-
-
-            
 
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
 
-            spriteBatch.Draw(texture, this.Position, Color.White);
+            //spriteBatch.Draw(texture, this.Position, Color.White);
+            animated.Draw(spriteBatch,this.position , 0);
+
             //Draw Heart
             if (this.Name.Equals("Player1")) {
                 for (int i = 0; i < this.Health; i++) {
