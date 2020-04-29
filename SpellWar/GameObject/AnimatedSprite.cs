@@ -57,7 +57,8 @@ namespace SpellWar.gameObject {
             
             //ถ้าอยากเลือกแถวก็ เปลี่ยน spriteRow  เป็นเลขแถวนั้นๆ ตาม action 
             Rectangle sourceRectangle = new Rectangle(width * SpriteColumn, height * Row, width, height);
-            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
+            
+            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y-10, width, height);
 
             spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
         }

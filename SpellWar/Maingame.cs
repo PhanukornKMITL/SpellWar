@@ -110,8 +110,8 @@ namespace SpellWar {
             background = Content.Load<Texture2D>("background");
 
             //อันนี้ตัวอย่างใส่ตัวละครนะ ก็คือ วาดใส่ตรงนี้ได้เลย แทน wizzard
-            wizzard = Content.Load<Texture2D>("WizardSheet");
-            voodoo = Content.Load<Texture2D>("voodoo");
+            wizzard = Content.Load<Texture2D>("WizSprite_183");
+            voodoo = Content.Load<Texture2D>("VooSprite_183");
             heart = Content.Load<Texture2D>("heart");
 
 

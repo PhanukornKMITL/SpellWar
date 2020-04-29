@@ -224,7 +224,7 @@ namespace SpellWar.gameObject{
         public override void Draw(SpriteBatch spriteBatch) {
 
             //spriteBatch.Draw(texture, this.Position, Color.White);
-            animated.Draw(spriteBatch,this.position , 0);
+            animated.Draw(spriteBatch,this.Position , 2);
 
             //Draw Heart
             if (this.Name.Equals("Player1")) {
