@@ -13,6 +13,8 @@ namespace SpellWar.gameObject{
         Texture2D texture, heart;
         Rectangle hitBox;
         AnimatedSprite animated;
+        public bool ability = false;
+        public int turn = 0;
        
 
         public Player(Texture2D texture, Texture2D heart) : base(texture) {
@@ -23,6 +25,7 @@ namespace SpellWar.gameObject{
         }
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjects) {
+
 
             
 
@@ -64,6 +67,12 @@ namespace SpellWar.gameObject{
                     if ( this.Name.Equals("Player2") && (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || Singleton.Instance.timer <= 0)) {
                         //After right move
                         Singleton.Instance.isRightMove = true;
+                        if (Singleton.Instance.count < 0) {
+                            this.WalkSlot -= Singleton.Instance.count * -1;
+                        }
+                        else {
+                            this.WalkSlot -= Singleton.Instance.count;
+                        }
                     }
                 }
 
@@ -136,6 +145,7 @@ namespace SpellWar.gameObject{
 
                             Singleton.Instance.leftSideMove--;
                             Singleton.Instance.count--;
+                           
                         }
 
 
@@ -156,7 +166,13 @@ namespace SpellWar.gameObject{
                     if (this.Name.Equals("Player1") && (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || Singleton.Instance.timer <= 0)) {
                         //After left move
                             Singleton.Instance.isLeftMove = true;
-                        
+
+                        if (Singleton.Instance.count < 0) {
+                            this.WalkSlot -= Singleton.Instance.count * -1;
+                        }
+                        else {
+                            this.WalkSlot -= Singleton.Instance.count;
+                        }
                         Console.WriteLine(this.Name);
                     }
 
@@ -231,6 +247,7 @@ namespace SpellWar.gameObject{
                 for (int i = 0; i < this.Health; i++) {
                     spriteBatch.Draw(heart, new Vector2(3 + i * heart.Width, 3), Color.White);
                 }
+               
             }
 
 
@@ -253,8 +270,9 @@ namespace SpellWar.gameObject{
                 //Right Player
                 this.Position = new Vector2(Singleton.Instance.rightArea[2], 920 - 170);
             }
-           
-          
+
+          Power = 1;
+
 
 
         }

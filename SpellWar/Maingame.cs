@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using SpellWar.gameObject;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SpellWar {
 
@@ -15,10 +16,10 @@ namespace SpellWar {
         Texture2D wizzard; //Vector2 wizzardPos = Vector2.Zero;
         Texture2D voodoo; //Vector2 voodooPos = Vector2.Zero;
         Texture2D background, heart;
-        GameObject player1, player2;
+        GameObject player1, player2,item1,item2;
         Vector2 coor, virtualPos;
         Texture2D rect, virtualBox, virtualShoot;
-        Random sideRand;
+        Random sideRand,itemRand;
         int side;
         KeyboardState kBState;
         SpriteFont gameFont;
@@ -49,6 +50,7 @@ namespace SpellWar {
             Singleton.Instance.leftSideMove = 2;
             Singleton.Instance.rightSideMove = 2;
             sideRand = new Random();
+            itemRand = new Random();
             leftAngle = new float[5];
             rightAngle = new float[5];
           
@@ -120,7 +122,7 @@ namespace SpellWar {
             player1 = new Player(voodoo, heart) {
                 Name = "Player1",
                 Health = 3,
-                WalkSlot = 1,
+                WalkSlot = 2,
                 Power = 1,
                 
             };
@@ -128,7 +130,7 @@ namespace SpellWar {
             player2 = new Player(wizzard, heart) {
                 Name = "Player2",
                 Health = 3,
-                WalkSlot = 1,
+                WalkSlot = 2,
                 Power = 1
             };
 
@@ -196,6 +198,7 @@ namespace SpellWar {
                     Singleton.Instance.isLeftTurn = false;
                     Singleton.Instance.isRightTurn = true;
                     Reset();
+                    
                 }
                 
 
@@ -212,12 +215,13 @@ namespace SpellWar {
 
             Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
+            gameObjects.RemoveAll(g => g.IsActive == false);
             base.Update(gameTime);
         }
 
         public void Reset() {
 
-            
+            Singleton.Instance.turnCount++;
             voBall = new Ball(ball) {
                 Name = "voBall"
 
@@ -229,7 +233,84 @@ namespace SpellWar {
             gameObjects.Add(voBall);
             gameObjects.Add(wizBall);
 
-            
+          
+
+            if(Singleton.Instance.turnCount % 2 == 0) {
+                int x;
+                do {
+                    x = itemRand.Next(0, 4);
+                } while (x == 2);
+                 
+            int y = itemRand.Next(0,2);
+            int type = itemRand.Next(0,4);
+                type = 3;
+                while(x == 2) {
+
+                }
+
+
+                if (y == 0) {
+                    switch (type) {
+                        case 1:
+                            item1 = new HealthItem(ball) {
+                                Name = "health",
+                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
+                            };
+                            break;
+                        case 2:
+                            item1 = new walkSlotItem(ball) {
+                                Name = "walk",
+                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
+                            };
+                            break;
+                        case 3:
+                            item1 = new powerItem(ball) {
+                                Name = "power",
+                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
+                            };
+                            break;
+                        case 4:
+                            break;
+                        
+                    }
+                    gameObjects.Add(item1);
+                    
+                }
+                else {
+                    switch (type) {
+                        case 1:
+                            item2 = new HealthItem(ball) {
+                                Name = "health",
+                                Position = new Vector2(Singleton.Instance.rightArea[x], 800)
+                            };
+
+                       break;
+                        case 2:
+                            item2 = new walkSlotItem(ball) {
+                                Name = "walk",
+                                Position = new Vector2(Singleton.Instance.rightArea[x], 800)
+                            };
+                            break;
+                        case 3:
+                            item2 = new powerItem(ball) {
+                                Name = "power",
+                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
+                            };
+                            break;
+                        case 4:
+
+                            break;
+                    }
+                   
+                    gameObjects.Add(item2);
+                }
+            }
+
+          
+
+
+
+
             virtualPos = Vector2.Zero;
             Singleton.Instance.isRightMove = false;
             Singleton.Instance.isLeftMove = false;
@@ -268,9 +349,15 @@ namespace SpellWar {
 
             spriteBatch.Begin();
             spriteBatch.Draw(background, GraphicsDevice.Viewport.Bounds, Color.White);
-           
-            
 
+            if(item1 != null) {
+                item1.Draw(spriteBatch);
+            }
+            if(item2 != null) {
+                item2.Draw(spriteBatch);
+            }
+            
+            
             //Draw if not collide
             if (!isCollision(voBall,player2, player1.Power)) {
 
@@ -285,7 +372,11 @@ namespace SpellWar {
             }
 
                 spriteBatch.DrawString(gameFont, "" + (Math.Floor(Singleton.Instance.timer) +1), new Vector2(graphics.PreferredBackBufferWidth / 2, 20), Color.Red);
+                spriteBatch.DrawString(gameFont, "WalkSlot " + player1.WalkSlot, new Vector2(3,100),Color.Red);
+                spriteBatch.DrawString(gameFont, "WalkSlot " + player2.WalkSlot, new Vector2(1250, 100), Color.Red);
 
+            spriteBatch.DrawString(gameFont, "Power " + player1.Power, new Vector2(3, 300), Color.Red);
+            spriteBatch.DrawString(gameFont, "Power " + player2.Power, new Vector2(1250, 300), Color.Red);
             if (Singleton.Instance.ballVisible) {
                 voBall.Draw(spriteBatch);
                 

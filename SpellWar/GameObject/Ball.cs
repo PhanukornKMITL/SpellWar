@@ -70,8 +70,13 @@ namespace SpellWar.gameObject {
 
         }
         public override void Draw(SpriteBatch spriteBatch) {
+            
+           
+           
+                spriteBatch.Draw(texture, this.getRect, Color.White);
 
-            spriteBatch.Draw(texture,this.getRect,Color.White);
+            
+            
         }
 
         public override void Reset() {
