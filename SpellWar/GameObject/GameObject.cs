@@ -60,6 +60,7 @@ namespace SpellWar.gameObject {
 
         public Rectangle getRect {
             get { return hitBox; }
+            set { hitBox = value; }
         }
         public int Health {
             get { return health; }

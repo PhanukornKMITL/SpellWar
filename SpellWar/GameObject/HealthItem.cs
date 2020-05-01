@@ -19,7 +19,7 @@ namespace SpellWar.gameObject {
            
                 if (obj1.getRect.Intersects(obj2.getRect)) {
                     obj2.Health += health;
-                obj1.IsActive = false;
+                    obj1.IsActive = false;
               
                    Console.WriteLine(obj2.Name + " "+ obj2.Health );
                    

@@ -21,14 +21,12 @@ namespace SpellWar.gameObject{
             this.texture = texture;
             this.heart = heart;
             this.animated = new AnimatedSprite(this.texture,3,4);
-           
+            
+
         }
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjects) {
-
-
             
-
             //Turn Left To Shoot
             if (Singleton.Instance.isLeftTurn) {
                 //Console.WriteLine("LeftTurn");

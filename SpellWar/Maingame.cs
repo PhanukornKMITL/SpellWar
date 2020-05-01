@@ -124,14 +124,16 @@ namespace SpellWar {
                 Health = 3,
                 WalkSlot = 2,
                 Power = 1,
-                
-            };
+                getRect = new Rectangle((int)Singleton.Instance.leftArea[2], 920, 183, 183)
+
+        };
           
             player2 = new Player(wizzard, heart) {
                 Name = "Player2",
                 Health = 3,
                 WalkSlot = 2,
-                Power = 1
+                Power = 1,
+                getRect = new Rectangle((int)Singleton.Instance.rightArea[2], 920, 183, 183)
             };
 
             gameObjects.Add(player1);
@@ -244,9 +246,7 @@ namespace SpellWar {
             int y = itemRand.Next(0,2);
             int type = itemRand.Next(0,4);
                 type = 3;
-                while(x == 2) {
-
-                }
+               
 
 
                 if (y == 0) {
@@ -329,9 +329,9 @@ namespace SpellWar {
             Singleton.Instance.leftSideShoot = 2;
             Singleton.Instance.rightSideShoot = 2;
 
-          
 
 
+            
             //set ball position according to player position this is open to change screen resolution.
             ball2pos = player2.Position;
             ball1pos = player1.Position;
@@ -356,8 +356,18 @@ namespace SpellWar {
             if(item2 != null) {
                 item2.Draw(spriteBatch);
             }
+
+
+          /*  Texture2D rect = new Texture2D(graphics.GraphicsDevice, 80, 30);
+
+            Color[] data = new Color[80 * 30];
+            for (int i = 0; i < data.Length; ++i) data[i] = Color.Chocolate;
+            rect.SetData(data);
+
             
-            
+            spriteBatch.Draw(rect, player1.getRect, Color.White);
+            spriteBatch.Draw(rect, player2.getRect, Color.White);*/
+
             //Draw if not collide
             if (!isCollision(voBall,player2, player1.Power)) {
 
