@@ -268,9 +268,9 @@ namespace SpellWar.gameObject{
                 //Right Player
                 this.Position = new Vector2(Singleton.Instance.rightArea[2], 920 - 170);
             }
-
+            
           Power = 1;
-
+            
 
 
         }

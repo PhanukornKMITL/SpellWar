@@ -236,7 +236,7 @@ namespace SpellWar {
             gameObjects.Add(wizBall);
 
           
-
+            //สุ่มไอเท็ม
             if(Singleton.Instance.turnCount % 2 == 0) {
                 int x;
                 do {
@@ -244,62 +244,58 @@ namespace SpellWar {
                 } while (x == 2);
                  
             int y = itemRand.Next(0,2);
-            int type = itemRand.Next(0,4);
-                type = 3;
+            int type = itemRand.Next(0,3);
+                
                
 
 
                 if (y == 0) {
                     switch (type) {
-                        case 1:
+                        case 0:
                             item1 = new HealthItem(ball) {
                                 Name = "health",
                                 Position = new Vector2(Singleton.Instance.leftArea[x], 800)
                             };
                             break;
-                        case 2:
+                        case 1:
                             item1 = new walkSlotItem(ball) {
                                 Name = "walk",
                                 Position = new Vector2(Singleton.Instance.leftArea[x], 800)
                             };
                             break;
-                        case 3:
+                        case 2:
                             item1 = new powerItem(ball) {
                                 Name = "power",
                                 Position = new Vector2(Singleton.Instance.leftArea[x], 800)
                             };
                             break;
-                        case 4:
-                            break;
-                        
+                       
                     }
                     gameObjects.Add(item1);
                     
                 }
                 else {
                     switch (type) {
-                        case 1:
+                        case 0:
                             item2 = new HealthItem(ball) {
                                 Name = "health",
                                 Position = new Vector2(Singleton.Instance.rightArea[x], 800)
                             };
 
                        break;
-                        case 2:
+                        case 1:
                             item2 = new walkSlotItem(ball) {
                                 Name = "walk",
                                 Position = new Vector2(Singleton.Instance.rightArea[x], 800)
                             };
                             break;
-                        case 3:
+                        case 2:
                             item2 = new powerItem(ball) {
                                 Name = "power",
                                 Position = new Vector2(Singleton.Instance.leftArea[x], 800)
                             };
                             break;
-                        case 4:
-
-                            break;
+                       
                     }
                    
                     gameObjects.Add(item2);

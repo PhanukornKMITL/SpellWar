@@ -10,7 +10,7 @@ namespace SpellWar.gameObject {
     class walkSlotItem : GameObject{
 
         Texture2D texture;
-        int walkSlot = 1;
+        int walkSlot = 2;
 
         public walkSlotItem(Texture2D texture) : base(texture) {
             this.texture = texture;
