@@ -15,6 +15,7 @@ namespace SpellWar.gameObject{
         AnimatedSprite animated;
         public bool ability = false;
         public int turn = 0;
+        
        
 
         public Player(Texture2D texture, Texture2D heart) : base(texture) {
@@ -260,6 +261,7 @@ namespace SpellWar.gameObject{
 
         public override void Reset() {
 
+           
             if (this.Name.Equals("Player1")) {
                 //Left Player
                this.Position = new Vector2(Singleton.Instance.leftArea[2], 920 - 170);
@@ -269,10 +271,16 @@ namespace SpellWar.gameObject{
                 this.Position = new Vector2(Singleton.Instance.rightArea[2], 920 - 170);
             }
             
-          Power = 1;
             
-
-
+            
+            if(Power > 1 && turn <1) {
+                turn++;
+            }
+            else if(Power >1) {
+                Power = 1;
+                turn = 0;
+            }
+           
         }
 
 

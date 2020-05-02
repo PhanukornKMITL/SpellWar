@@ -245,7 +245,7 @@ namespace SpellWar {
                  
             int y = itemRand.Next(0,2);
             int type = itemRand.Next(0,3);
-                
+                type = 2;
                
 
 
@@ -324,7 +324,8 @@ namespace SpellWar {
             Singleton.Instance.leftChooseShoot  = false;
             Singleton.Instance.leftSideShoot = 2;
             Singleton.Instance.rightSideShoot = 2;
-
+            player1.WalkSlot++;
+            player2.WalkSlot++;
 
 
             
