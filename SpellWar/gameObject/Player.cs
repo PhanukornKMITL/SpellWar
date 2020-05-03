@@ -28,6 +28,8 @@ namespace SpellWar.gameObject{
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjects) {
             
+
+
             //Turn Left To Shoot
             if (Singleton.Instance.isLeftTurn) {
                 //Console.WriteLine("LeftTurn");
@@ -241,6 +243,7 @@ namespace SpellWar.gameObject{
             //spriteBatch.Draw(texture, this.Position, Color.White);
             animated.Draw(spriteBatch,this.Position , 2);
 
+            //หัวใจไปวาดที่ main นะ
             //Draw Heart
             if (this.Name.Equals("Player1")) {
                 for (int i = 0; i < this.Health; i++) {
@@ -261,18 +264,18 @@ namespace SpellWar.gameObject{
 
         public override void Reset() {
 
-           
-            if (this.Name.Equals("Player1")) {
+            //อาจจะย้ายไปไว้ที่ main นะ
+            /*if (this.Name.Equals("Player1")) {
                 //Left Player
                this.Position = new Vector2(Singleton.Instance.leftArea[2], 920 - 170);
             }
             else {
                 //Right Player
                 this.Position = new Vector2(Singleton.Instance.rightArea[2], 920 - 170);
-            }
+            }*/
             
             
-            
+            //ไว้ไหนดี
             if(Power > 1 && turn <1) {
                 turn++;
             }

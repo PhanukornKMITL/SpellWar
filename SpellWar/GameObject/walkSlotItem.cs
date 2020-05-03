@@ -22,7 +22,7 @@ namespace SpellWar.gameObject {
                 obj2.WalkSlot += walkSlot;
                 obj1.IsActive = false;
 
-                Console.WriteLine(obj2.Name + " " + obj2.Health);
+                
 
             }
 
