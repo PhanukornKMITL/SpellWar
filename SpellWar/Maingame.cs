@@ -32,7 +32,7 @@ namespace SpellWar {
         GameObject voBall, wizBall;
         List<GameObject> gameObjects;
         float[] leftAngle,rightAngle;
-        bool _isDecreaseHealth, canWalk;
+        bool  canWalk;
         
         
 
@@ -378,7 +378,7 @@ namespace SpellWar {
             Singleton.Instance.ball2Visible = false;
             Singleton.Instance.virtualVisible = false;
             Singleton.Instance.virtualShootVisible = false;
-            _isDecreaseHealth = false;
+            Singleton.Instance.isDecreaseHealth = false;
             Singleton.Instance.rightChooseShoot = false;
             Singleton.Instance.leftChooseShoot  = false;
             Singleton.Instance.leftSideShoot = 2;
@@ -430,14 +430,14 @@ namespace SpellWar {
 
 
             //Draw if not collide
-            if (!isCollision(voBall,player2, player1.Power)) {
+            if (!Singleton.Instance.isCollision(voBall,player2, player1.Power)) {
 
 
                 player2.Draw(spriteBatch);
             }
 
 
-            if (!isCollision(wizBall, player1, player2.Power)) {
+            if (!Singleton.Instance.isCollision(wizBall, player1, player2.Power)) {
 
                 player1.Draw(spriteBatch);
             }
@@ -446,8 +446,8 @@ namespace SpellWar {
                 spriteBatch.DrawString(gameFont, "WalkSlot " + player1.WalkSlot, new Vector2(3,100),Color.Red);
                 spriteBatch.DrawString(gameFont, "WalkSlot " + player2.WalkSlot, new Vector2(1250, 100), Color.Red);
 
-            spriteBatch.DrawString(gameFont, "Power " + player1.Power, new Vector2(3, 300), Color.Red);
-            spriteBatch.DrawString(gameFont, "Power " + player2.Power, new Vector2(1250, 300), Color.Red);
+                spriteBatch.DrawString(gameFont, "Power " + player1.Power, new Vector2(3, 300), Color.Red);
+                spriteBatch.DrawString(gameFont, "Power " + player2.Power, new Vector2(1250, 300), Color.Red);
           
                 voBall.Draw(spriteBatch);
                 
@@ -483,20 +483,7 @@ namespace SpellWar {
             base.Draw(gameTime);
         }
 
-       public bool isCollision(GameObject obj1, GameObject obj2,int power) {
-            if (obj1.getRect.Intersects(obj2.getRect) && _isDecreaseHealth == false) {
-                obj2.Health -= power;
-                obj1 = null;
-             
-                _isDecreaseHealth = true;
-
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-
+       
         
 
 

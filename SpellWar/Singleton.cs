@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using SpellWar.gameObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,9 @@ namespace SpellWar {
         public KeyboardState PreviousKey, CurrentKey;
         public double timer = 2D;
         public int count, turnCount = 0;
-        public bool ballVisible, ball2Visible, virtualVisible, virtualShootVisible;
+        public bool ballVisible, ball2Visible, virtualVisible, virtualShootVisible, isDecreaseHealth;
         public int kState = 0;
+       
 
         public GameState gameState;
 
@@ -61,6 +63,20 @@ namespace SpellWar {
             
 
 
+        }
+
+        public bool isCollision(GameObject obj1, GameObject obj2, int power) {
+            if (obj1.getRect.Intersects(obj2.getRect) && isDecreaseHealth == false) {
+                obj2.Health -= power;
+                obj1 = null;
+
+                isDecreaseHealth = true;
+
+                return true;
+            }
+            else {
+                return false;
+            }
         }
 
 

@@ -11,6 +11,7 @@ namespace SpellWar.gameObject.component {
 
         protected AnimatedSprite animated;
         protected Texture2D _texture;
+        protected GraphicsDeviceManager graphics;
         public GraphicsComponent(Game currentScene,Texture2D texture) {
             _texture = texture;
         }

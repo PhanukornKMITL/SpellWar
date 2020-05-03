@@ -71,6 +71,12 @@ namespace SpellWar.gameObject.component.BallComponent {
 
                 Singleton.Instance.ball2Visible = true;
             }
+
+
+
+           
+
+
         }
     }
 }

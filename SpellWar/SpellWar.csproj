@@ -55,7 +55,6 @@
     <Compile Include="gameObject\component\PlayerComponent\PlayerPhysicsComponent.cs" />
     <Compile Include="gameObject\GameObject.cs" />
     <Compile Include="MainGame.cs" />
-    <Compile Include="gameObject\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Singleton.cs" />
