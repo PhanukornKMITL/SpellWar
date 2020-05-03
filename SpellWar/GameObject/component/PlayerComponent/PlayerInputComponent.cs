@@ -29,11 +29,13 @@ namespace SpellWar.gameObject.component.PlayerComponent {
         }
 
         public override void Reset() {
-            base.Reset();
+
+
         }
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjects, GameObject parent) {
-            
+
+           
             //Turn Left To Shoot
             if (Singleton.Instance.isLeftTurn) {
                 

@@ -20,8 +20,8 @@ namespace SpellWar {
         public bool isLeftTurn, isRightTurn, isLeftMove = false, isRightMove = false, leftChooseShoot = false, rightChooseShoot = false;
         public KeyboardState PreviousKey, CurrentKey;
         public double timer = 2D;
-        public int count, turnCount = 0;
-        public bool ballVisible, ball2Visible, virtualVisible, virtualShootVisible, isDecreaseHealth;
+        public int count, turnCount = 0, turn = 0;
+        public bool ballVisible, ball2Visible, virtualVisible, virtualShootVisible, isDecreaseHealth,endTurn;
         public int kState = 0;
        
 
@@ -69,7 +69,7 @@ namespace SpellWar {
             if (obj1.getRect.Intersects(obj2.getRect) && isDecreaseHealth == false) {
                 obj2.Health -= power;
                 obj1 = null;
-
+                
                 isDecreaseHealth = true;
 
                 return true;

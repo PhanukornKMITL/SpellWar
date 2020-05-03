@@ -209,6 +209,7 @@ namespace SpellWar {
                     t2 = 0;
                     Singleton.Instance.isRightTurn = false;
                     Singleton.Instance.isLeftTurn = true;
+                    player2.Power = 1;
                     Reset();
                 }
 
@@ -219,6 +220,7 @@ namespace SpellWar {
                     t2 = 0;
                     Singleton.Instance.isLeftTurn = false;
                     Singleton.Instance.isRightTurn = true;
+                    player1.Power = 1;
                     Reset();
                     
                 }
@@ -245,6 +247,7 @@ namespace SpellWar {
         public void Reset() {
 
             Singleton.Instance.turnCount++;
+            Singleton.Instance.endTurn = false;
             /*voBall = new Ball(ball) {
                 Name = "voBall"
 
@@ -278,10 +281,7 @@ namespace SpellWar {
                  
             int y = itemRand.Next(0,2);
             int type = itemRand.Next(0,3);
-               
-               
-
-
+                
                 if (y == 0) {
                     switch (type) {
                         case 0:
