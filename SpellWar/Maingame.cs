@@ -146,14 +146,14 @@ namespace SpellWar {
                 Health = 3,
                 WalkSlot = 2,
                 Power = 1,
-                getRect = new Rectangle((int)Singleton.Instance.leftArea[2], 920, 183, 183)
+                getRect = new Rectangle((int)Singleton.Instance.leftArea[2], 920, 150, 150)
             };
             player2 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this, wizzard)) {
                 Name = "Player2",
                 Health = 3,
                 WalkSlot = 2,
                 Power = 1,
-                getRect = new Rectangle((int)Singleton.Instance.rightArea[2], 920, 183, 183)
+                getRect = new Rectangle((int)Singleton.Instance.rightArea[2], 920, 150, 150)
             };
 
             gameObjects.Add(player1);
@@ -238,6 +238,7 @@ namespace SpellWar {
             Singleton.Instance.PreviousKey = Singleton.Instance.CurrentKey;
 
             gameObjects.RemoveAll(g => g.IsActive == false);
+
             base.Update(gameTime);
         }
 
@@ -277,7 +278,7 @@ namespace SpellWar {
                  
             int y = itemRand.Next(0,2);
             int type = itemRand.Next(0,3);
-                type = 2;
+               
                
 
 
@@ -286,19 +287,22 @@ namespace SpellWar {
                         case 0:
                             item1 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
                                 Name = "health",
-                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
+                                Position = new Vector2(Singleton.Instance.leftArea[x], 800),
+                                getRect = new Rectangle((int)Singleton.Instance.leftArea[x], 800, 100, 100)
                             };
                             break;
                         case 1:
                            item1 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
                                 Name = "walk",
-                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
-                            };
+                                Position = new Vector2(Singleton.Instance.leftArea[x], 800),
+                                getRect = new Rectangle((int)Singleton.Instance.leftArea[x], 800, 100, 100)
+                           };
                             break;
                         case 2:
                             item1 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
                                 Name = "power",
-                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
+                                Position = new Vector2(Singleton.Instance.leftArea[x], 800),
+                                getRect = new Rectangle((int)Singleton.Instance.leftArea[x], 800, 100, 100)
                             };
                             /*item1 = new powerItem(ball) {
                                 Name = "power",
@@ -318,20 +322,23 @@ namespace SpellWar {
                         case 0:
                             item2 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
                                 Name = "health",
-                                Position = new Vector2(Singleton.Instance.rightArea[x], 800)
+                                Position = new Vector2(Singleton.Instance.rightArea[x], 800),
+                                getRect = new Rectangle((int)Singleton.Instance.rightArea[x], 800, 100, 100)
                             };
 
                        break;
                         case 1:
                             item2 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
                                 Name = "walk",
-                                Position = new Vector2(Singleton.Instance.rightArea[x], 800)
+                                Position = new Vector2(Singleton.Instance.rightArea[x], 800),
+                                getRect = new Rectangle((int)Singleton.Instance.rightArea[x], 800, 100, 100)
                             };
                             break;
                         case 2:
                             item2 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
                                 Name = "power",
-                                Position = new Vector2(Singleton.Instance.leftArea[x], 800)
+                                Position = new Vector2(Singleton.Instance.rightArea[x], 800),
+                                getRect = new Rectangle((int)Singleton.Instance.rightArea[x], 800, 100, 100)
                             };
 
                             /*item2 = new powerItem(ball) {
@@ -441,14 +448,13 @@ namespace SpellWar {
 
             spriteBatch.DrawString(gameFont, "Power " + player1.Power, new Vector2(3, 300), Color.Red);
             spriteBatch.DrawString(gameFont, "Power " + player2.Power, new Vector2(1250, 300), Color.Red);
-            if (Singleton.Instance.ballVisible) {
+          
                 voBall.Draw(spriteBatch);
                 
-            }
-            else if (Singleton.Instance.ball2Visible){
+           
                 wizBall.Draw(spriteBatch);
                 
-            }
+            
             
            
             spriteBatch.Draw(rect, coor, Color.White);

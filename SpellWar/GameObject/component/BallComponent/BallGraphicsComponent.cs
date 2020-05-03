@@ -17,7 +17,16 @@ namespace SpellWar.gameObject.component.BallComponent {
 
         public override void Draw(SpriteBatch spriteBatch, GameObject parent) {
             //Console.WriteLine(parent.Position);
-            spriteBatch.Draw(texture,parent.Position,Color.White);
+
+           if (Singleton.Instance.ballVisible && parent.Name.Equals("voBall")) {
+                spriteBatch.Draw(texture, parent.Position, Color.White);
+
+            }
+            else if (Singleton.Instance.ball2Visible && parent.Name.Equals("wizBall") ) {
+                spriteBatch.Draw(texture, parent.Position, Color.White);
+
+            }
+            //spriteBatch.Draw(texture, parent.Position, Color.White);
             //spriteBatch.Draw(texture, parent.getRect, Color.Red);
         }
 

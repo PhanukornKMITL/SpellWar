@@ -18,7 +18,9 @@ namespace SpellWar.gameObject.component.ItemComponent {
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameObject parent) {
+            if(parent.IsActive == true)
             spriteBatch.Draw(texture, parent.Position, Color.White);
+            
         }
 
         public override void ReceiveMessage(int message, Component sender) {
