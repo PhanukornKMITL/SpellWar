@@ -13,21 +13,23 @@ namespace SpellWar.gameObject.component.PlayerComponent {
         float playerSpeed = 200;
         //bool attacking = false;
         
+        
 
         public PlayerGraphicsComponent(Game currentScene,Texture2D texture, Vector2 postion) : base(currentScene, texture) {
-            Console.WriteLine(postion);
+     
             animated = new AnimatedSprite(postion, texture);
             animated.addAnimation(4, 0, 0, "Stand", 183, 183, new Vector2(0, 0));
             animated.addAnimation(4, 183, 0, "Left", 183, 183, new Vector2(0, 0));
             animated.addAnimation(4, 183, 0, "Right", 183, 183, new Vector2(0, 0));
             animated.addAnimation(4, 366, 0, "Attack", 183, 183, new Vector2(0, 0));
+           
 
 
 
         }
 
         public override void Draw(SpriteBatch spriteBatch, GameObject parent) {
-            animated.Draw(spriteBatch);
+           animated.Draw(spriteBatch,parent.Position);
            
 
             
@@ -44,7 +46,14 @@ namespace SpellWar.gameObject.component.PlayerComponent {
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjects, GameObject parent) {
 
-            animated.PlayAnimation("Stand");
+            if (parent.Name.Equals("Player1")) {
+                animated.PlayAnimation("Left");
+            }
+            else {
+                animated.PlayAnimation("Stand");
+            }
+            
+            
             animated.Update(gameTime);
                 
 

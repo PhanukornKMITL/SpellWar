@@ -29,6 +29,7 @@ namespace SpellWar.gameObject {
         {
             sPosition = position;
             sTexteure = texture;
+           
         }
 
 
@@ -72,9 +73,11 @@ namespace SpellWar.gameObject {
 
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch,Vector2 position)
         {
-            spriteBatch.Draw(sTexteure, sPosition, sAnimation[currentAnimation][frameIndex], Color.White);      
+            spriteBatch.Draw(sTexteure, position, sAnimation[currentAnimation][frameIndex], Color.White);
+            //spriteBatch.Draw(sTexteure, sPosition, sAnimation[currentAnimation][frameIndex], Color.White);
+
         }
 
         public void PlayAnimation (string name)

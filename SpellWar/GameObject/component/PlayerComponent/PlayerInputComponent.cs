@@ -121,6 +121,7 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                             Singleton.Instance.virtualShootVisible = false;
                             Singleton.Instance.kState = 1;
                             gameObjects.Single(s => s.Name.Equals("Player2")).Position = new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove], 920 - 170);
+                            Singleton.Instance.moveLeft = true;
 
                         }
 

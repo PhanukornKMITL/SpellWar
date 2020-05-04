@@ -21,7 +21,7 @@ namespace SpellWar {
         public KeyboardState PreviousKey, CurrentKey;
         public double timer = 2D;
         public int count, turnCount = 0, turn = 0;
-        public bool ballVisible, ball2Visible, virtualVisible, virtualShootVisible, isDecreaseHealth,endTurn;
+        public bool ballVisible, ball2Visible, virtualVisible, virtualShootVisible, isDecreaseHealth,endTurn, moveLeft= false;
         public int kState = 0;
        
 
