@@ -141,14 +141,14 @@ namespace SpellWar {
             };*/
             
 
-            player1 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this,voodoo)) {
+            player1 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this,voodoo,new Vector2((int)Singleton.Instance.leftArea[2], 920))) {
                 Name = "Player1",
                 Health = 3,
                 WalkSlot = 2,
                 Power = 1,
                 getRect = new Rectangle((int)Singleton.Instance.leftArea[2], 920, 150, 150)
             };
-            player2 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this, wizzard)) {
+            player2 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this, wizzard,new Vector2((int)Singleton.Instance.rightArea[2], 920))) {
                 Name = "Player2",
                 Health = 3,
                 WalkSlot = 2,

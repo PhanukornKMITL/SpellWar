@@ -8,59 +8,90 @@ using Microsoft.Xna.Framework;
 namespace SpellWar.gameObject {
     public class AnimatedSprite
     {
-        public Texture2D Texture { get; set; }
-        public int Rows { get; set; }
-        public int Columns { get; set; }
-        private int currentFrame;
-        private int totalFrames;
+        protected Vector2 sPosition;
 
-        //slow down fram animation
-        private int timeSinceLastFrame = 0;
-        private int milliseconPerFrame = 150;
+        protected Texture2D sTexteure;
+        private Rectangle[] sRectangles;
+        private int frameIndex;
 
-        public AnimatedSprite(Texture2D texture, int rows, int columns)
+        private double timeElapsed;
+        private double timeToUpdate = 0.2f;
+
+        protected Vector2 sDirection = Vector2.Zero;
+
+        protected string currentAnimation;
+        public enum myDirection { none, left, right, up };
+
+        protected myDirection currenDir= myDirection.none;
+
+
+        public AnimatedSprite(Vector2 position,Texture2D texture)
         {
-            this.Texture = texture;
-            Rows = rows;
-            Columns = columns;
-            currentFrame = 0;
-            totalFrames = Rows * Columns;
-         
+            sPosition = position;
+            sTexteure = texture;
         }
 
-        public void Update(GameTime gameTime)
-        {
-            timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
 
-            if (timeSinceLastFrame > milliseconPerFrame)
+        private Dictionary<string, Rectangle[]> sAnimation = new Dictionary<string, Rectangle[]>();
+
+
+
+        public void addAnimation (int frames ,int yPos , int xStartFrame,string name,int width ,int height,Vector2 offset)
+        {
+            
+            Rectangle[] Rectangles = new Rectangle[frames];
+
+            for (int i = 0; i < frames; i++)
             {
-                timeSinceLastFrame -= milliseconPerFrame;
-                if (currentFrame > totalFrames) currentFrame = 1;
-                //increment currrent fram
-                currentFrame++;
-                if (currentFrame == totalFrames)
-                    currentFrame = 0;
+                Rectangles[i] = new Rectangle((i+ xStartFrame) * width, yPos,width,height);
+
+            }
+            sAnimation.Add(name, Rectangles);
+        }
+
+
+
+        public virtual void Update(GameTime gameTime)
+        {
+            timeElapsed += gameTime.ElapsedGameTime.TotalSeconds;
+            if (timeElapsed>timeToUpdate)
+            {
+                timeElapsed -= timeToUpdate;
+
+                if (frameIndex < sAnimation[currentAnimation].Length-1)
+                {
+                    frameIndex++;
+                }
+                else
+                {
+                    //AnimationDone(currentAnimation);
+                    frameIndex = 0;
+                }
             }
 
+
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 location,int row)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            int Row = row;
-            //ขนาดความกว้างต่อช่อง
-            int width = Texture.Width / Columns;
-            //ขนาดความยาวต่อช่อง
-            int height = Texture.Height / Rows;
-
-            int SpriteRow = (int)((float)currentFrame / (float)Columns);
-            int SpriteColumn = currentFrame % Columns;
-            
-            //ถ้าอยากเลือกแถวก็ เปลี่ยน spriteRow  เป็นเลขแถวนั้นๆ ตาม action 
-            Rectangle sourceRectangle = new Rectangle(width * SpriteColumn, height * Row, width, height);
-            
-            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y-10, width, height);
-
-            spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+            spriteBatch.Draw(sTexteure, sPosition, sAnimation[currentAnimation][frameIndex], Color.White);      
         }
+
+        public void PlayAnimation (string name)
+        {
+            if (currentAnimation !=name && currenDir == myDirection.none)
+            {
+                currentAnimation = name;
+                frameIndex = 0;
+            }
+        }
+
+        //public void AnimationDone(string animation) {
+            //if (animation.Contains("Attack"))
+           // {
+             //   attacking = false;
+           // }
+        //}
+        
     }
 }
