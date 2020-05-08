@@ -12,22 +12,24 @@ using System.Threading.Tasks;
 namespace SpellWar.gameObject.component.PlayerComponent {
     public class PlayerGraphicsComponent : GraphicsComponent {
         float playerSpeed = 200;
-        SoundEffect _moveEffect;
-        SoundEffectInstance soundEffectInstance;
+        SoundEffect _moveEffect,_atkEffect;
+        SoundEffectInstance moveEffectInstance, atkEffectInstance;
         double time;
 
         //bool attacking = false;
 
 
 
-        public PlayerGraphicsComponent(Game currentScene,Texture2D texture,SoundEffect moveEffect, Vector2 postion) : base(currentScene, texture) {
+        public PlayerGraphicsComponent(Game currentScene,Texture2D texture,SoundEffect moveEffect, SoundEffect atk_Effect, Vector2 postion) : base(currentScene, texture) {
             _moveEffect = moveEffect;
+            _atkEffect = atk_Effect;
             animated = new AnimatedSprite(postion, texture);
             animated.addAnimation(4, 0, 0, "Stand", 183, 183, new Vector2(0, 0));
             animated.addAnimation(4, 183, 0, "Move", 183, 183, new Vector2(0, 0));
             animated.addAnimation(4, 366, 0, "Attack", 183, 183, new Vector2(0, 0));
             animated.PlayAnimation("Stand");
-            soundEffectInstance = _moveEffect.CreateInstance();
+            moveEffectInstance = _moveEffect.CreateInstance();
+            atkEffectInstance = _atkEffect.CreateInstance();
 
 
 
@@ -52,8 +54,9 @@ namespace SpellWar.gameObject.component.PlayerComponent {
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjects, GameObject parent) {
             //_moveEffect.Play();
+           
 
-            
+
 
             if (Singleton.Instance.isRightMove && Singleton.Instance.leftChooseShoot)
             {
@@ -64,8 +67,8 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                     time += gameTime.ElapsedGameTime.TotalSeconds;
                     
                     if(time > 0.5) {
-                       
-                        soundEffectInstance.Play();
+
+                        moveEffectInstance.Play();
                         time = 0;
                     }
                     
@@ -77,8 +80,15 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                     if (Singleton.Instance.leftChooseShoot && Singleton.Instance.P1attacking)
                     {
                         animated.PlayAnimation("Attack");
+                        time += gameTime.ElapsedGameTime.TotalSeconds;
 
-                        
+                        if (time > 0.3)
+                        {
+                            atkEffectInstance.Volume = 0.3f;
+                            atkEffectInstance.Play();
+                            time = 0;
+                        }
+
                         Singleton.Instance.currenDir = Singleton.myDirection.attack;
                     }
 
@@ -102,8 +112,8 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                     time += gameTime.ElapsedGameTime.TotalSeconds;
                     Console.WriteLine(time);
                     if (time > 0.5) {
-                        
-                        soundEffectInstance.Play();
+
+                        moveEffectInstance.Play();
                         time = 0;
                     }
                     
@@ -115,9 +125,16 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                     
                         if (Singleton.Instance.rightChooseShoot && Singleton.Instance.P2attacking) {
 
-
+                            
                             animated.PlayAnimation("Attack");
-                        }
+                            time += gameTime.ElapsedGameTime.TotalSeconds;
+                            if (time > 0.3)
+                            {
+                                atkEffectInstance.Volume = 0.3f;
+                                atkEffectInstance.Play();
+                                time = 0;
+                            }
+                    }
  
                     else
                     {

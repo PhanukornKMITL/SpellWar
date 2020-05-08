@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
-
+using Microsoft.Xna.Framework.Media;
 using SpellWar.gameObject;
 using SpellWar.gameObject.component;
 using SpellWar.gameObject.component.BallComponent;
@@ -11,6 +11,7 @@ using SpellWar.gameObject.component.PlayerComponent;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Xna.Framework.Media;
 
 namespace SpellWar {
 
@@ -29,8 +30,10 @@ namespace SpellWar {
         int side;
         KeyboardState kBState;
         SpriteFont gameFont;
-        SoundEffect moveEffect;
-        
+        SoundEffect moveEffect,p1_atkEffect,p2_atkEffect;
+        Texture2D iMove,iDmg,iHealth;
+        Song music;
+
         GameObject voBall, wizBall;
         List<GameObject> gameObjects;
         float[] leftAngle,rightAngle;
@@ -122,35 +125,33 @@ namespace SpellWar {
             voodoo = Content.Load<Texture2D>("VooSprite_183");
             heart = Content.Load<Texture2D>("heart");
 
+            //items heart, move , dmg
+            iMove = Content.Load<Texture2D>("iMove");
+            iDmg = Content.Load<Texture2D>("iDmg");
+            iHealth = Content.Load<Texture2D>("heart");
+
+            //effect
             moveEffect = Content.Load<SoundEffect>("moveEffect");
+            p1_atkEffect = Content.Load<SoundEffect>("p1_atk");
+            p2_atkEffect = Content.Load<SoundEffect>("p2_atk");
 
-            
-          /*  player1 = new Player(voodoo, heart) {
-                Name = "Player1",
-                Health = 3,
-                WalkSlot = 2,
-                Power = 1,
-                getRect = new Rectangle((int)Singleton.Instance.leftArea[2], 920, 183, 183)
+            //music 
+            music = Content.Load<Song>("music");
+            MediaPlayer.Volume = 0.2f;
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(music);
 
-        };
-          
-            player2 = new Player(wizzard, heart) {
-                Name = "Player2",
-                Health = 3,
-                WalkSlot = 2,
-                Power = 1,
-                getRect = new Rectangle((int)Singleton.Instance.rightArea[2], 920, 183, 183)
-            };*/
-            
 
-            player1 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this,voodoo,moveEffect,new Vector2((int)Singleton.Instance.leftArea[2], 920))) {
+
+
+            player1 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this,voodoo,moveEffect,p1_atkEffect,new Vector2((int)Singleton.Instance.leftArea[2], 920))) {
                 Name = "Player1",
                 Health = 3,
                 WalkSlot = 2,
                 Power = 1,
                 getRect = new Rectangle((int)Singleton.Instance.leftArea[2], 920, 150, 150)
             };
-            player2 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this, wizzard,moveEffect,new Vector2((int)Singleton.Instance.rightArea[2], 920))) {
+            player2 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this, wizzard,moveEffect,p2_atkEffect,new Vector2((int)Singleton.Instance.rightArea[2], 920))) {
                 Name = "Player2",
                 Health = 3,
                 WalkSlot = 2,
@@ -289,21 +290,21 @@ namespace SpellWar {
                 if (y == 0) {
                     switch (type) {
                         case 0:
-                            item1 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
+                            item1 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, iHealth)) {
                                 Name = "health",
                                 Position = new Vector2(Singleton.Instance.leftArea[x], 800),
                                 getRect = new Rectangle((int)Singleton.Instance.leftArea[x], 800, 100, 100)
                             };
                             break;
                         case 1:
-                           item1 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
+                           item1 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, iMove)) {
                                 Name = "walk",
                                 Position = new Vector2(Singleton.Instance.leftArea[x], 800),
                                 getRect = new Rectangle((int)Singleton.Instance.leftArea[x], 800, 100, 100)
                            };
                             break;
                         case 2:
-                            item1 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
+                            item1 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, iDmg)) {
                                 Name = "power",
                                 Position = new Vector2(Singleton.Instance.leftArea[x], 800),
                                 getRect = new Rectangle((int)Singleton.Instance.leftArea[x], 800, 100, 100)
@@ -324,7 +325,7 @@ namespace SpellWar {
                 else {
                     switch (type) {
                         case 0:
-                            item2 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
+                            item2 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, iHealth)) {
                                 Name = "health",
                                 Position = new Vector2(Singleton.Instance.rightArea[x], 800),
                                 getRect = new Rectangle((int)Singleton.Instance.rightArea[x], 800, 100, 100)
@@ -332,14 +333,14 @@ namespace SpellWar {
 
                        break;
                         case 1:
-                            item2 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
+                            item2 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, iMove)) {
                                 Name = "walk",
                                 Position = new Vector2(Singleton.Instance.rightArea[x], 800),
                                 getRect = new Rectangle((int)Singleton.Instance.rightArea[x], 800, 100, 100)
                             };
                             break;
                         case 2:
-                            item2 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, ball)) {
+                            item2 = new GameObject(null, new ItemPhysicsComponent(this), new ItemGraphicsComponent(this, iDmg)) {
                                 Name = "power",
                                 Position = new Vector2(Singleton.Instance.rightArea[x], 800),
                                 getRect = new Rectangle((int)Singleton.Instance.rightArea[x], 800, 100, 100)
