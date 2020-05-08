@@ -131,7 +131,7 @@ namespace SpellWar {
             iHealth = Content.Load<Texture2D>("heart");
 
             //effect
-            moveEffect = Content.Load<SoundEffect>("moveEffect");
+            moveEffect = Content.Load<SoundEffect>("move");
             p1_atkEffect = Content.Load<SoundEffect>("p1_atk");
             p2_atkEffect = Content.Load<SoundEffect>("p2_atk");
 
