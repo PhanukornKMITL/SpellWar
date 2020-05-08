@@ -233,10 +233,26 @@ namespace SpellWar {
             }
 
             if(Singleton.Instance.gameState == Singleton.GameState.PLAYER1_WIN){
-               //TODO When Player1 win the game...
+               if (Keyboard.GetState().IsKeyDown(Keys.Enter)) {
+                    player1.Health = 3;
+                    player2.Health = 3;
+                    player1.WalkSlot = 2;
+                    player2.WalkSlot = 2;
+                    player1.Power = 1;
+                    player2.Power = 1;
+                    Singleton.Instance.gameState = Singleton.GameState.ISPLAYING;
+                }
             }
             if (Singleton.Instance.gameState == Singleton.GameState.PLAYER2_WIN){
-                //TODO When Player2 win the game...
+                if (Keyboard.GetState().IsKeyDown(Keys.Enter)) {
+                    player1.Health = 3;
+                    player2.Health = 3;
+                    player1.WalkSlot = 2;
+                    player2.WalkSlot = 2;
+                    player1.Power = 1;
+                    player2.Power = 1;
+                    Singleton.Instance.gameState = Singleton.GameState.ISPLAYING;
+                }
             }
 
 
