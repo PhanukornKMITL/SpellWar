@@ -13,6 +13,8 @@ namespace SpellWar.gameObject.component.PlayerComponent {
     public class PlayerGraphicsComponent : GraphicsComponent {
         float playerSpeed = 200;
         SoundEffect _moveEffect;
+        SoundEffectInstance soundEffectInstance;
+        double time;
 
         //bool attacking = false;
 
@@ -25,8 +27,8 @@ namespace SpellWar.gameObject.component.PlayerComponent {
             animated.addAnimation(4, 183, 0, "Move", 183, 183, new Vector2(0, 0));
             animated.addAnimation(4, 366, 0, "Attack", 183, 183, new Vector2(0, 0));
             animated.PlayAnimation("Stand");
-                         
-           
+            soundEffectInstance = _moveEffect.CreateInstance();
+
 
 
 
@@ -49,8 +51,8 @@ namespace SpellWar.gameObject.component.PlayerComponent {
         }
 
         public override void Update(GameTime gameTime, List<GameObject> gameObjects, GameObject parent) {
-             //_moveEffect.Play();
-            
+            //_moveEffect.Play();
+
             
 
             if (Singleton.Instance.isRightMove && Singleton.Instance.leftChooseShoot)
@@ -59,7 +61,15 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                 if (parent.Name.Equals("Player2"))
                 {
                     animated.PlayAnimation("Move");
-                     _moveEffect.Play(0.5f,0.5f,0.5f);
+                    time += gameTime.ElapsedGameTime.TotalSeconds;
+                    Console.WriteLine(time);
+                    if(time > 1) {
+                       
+                        soundEffectInstance.Play();
+                        time = 0;
+                    }
+                    
+                    
                     //Singleton.Instance.currenDir = Singleton.myDirection.move;
                 }
                 else if (parent.Name.Equals("Player1"))
@@ -87,8 +97,17 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                 if (parent.Name.Equals("Player1"))
                 {
                     animated.PlayAnimation("Move");
-                    _moveEffect.Play(0.5f,0.5f,0.5f);
+                    //_moveEffect.Play(0.5f,0.5f,0.5f);
 
+                    time += gameTime.ElapsedGameTime.TotalSeconds;
+                    Console.WriteLine(time);
+                    if (time > 1) {
+                        
+                        soundEffectInstance.Play();
+                        time = 0;
+                    }
+                    
+                    
 
                 }
                 else if (parent.Name.Equals("Player2"))
