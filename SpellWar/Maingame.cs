@@ -452,8 +452,15 @@ namespace SpellWar {
 
                 spriteBatch.DrawString(gameFont, "Power " + player1.Power, new Vector2(3, 300), Color.Red);
                 spriteBatch.DrawString(gameFont, "Power " + player2.Power, new Vector2(1250, 300), Color.Red);
-          
-                voBall.Draw(spriteBatch);
+
+
+            if (Singleton.Instance.gameState == Singleton.GameState.PLAYER1_WIN) {
+                spriteBatch.DrawString(gameFont, "Player1 Win " + player1.Power, new Vector2(650, 300), Color.Red);
+            }
+            if (Singleton.Instance.gameState == Singleton.GameState.PLAYER2_WIN) {
+                spriteBatch.DrawString(gameFont, "Player2 Win " + player1.Power, new Vector2(650, 300), Color.Red);
+            }
+            voBall.Draw(spriteBatch);
                 
            
                 wizBall.Draw(spriteBatch);
@@ -479,6 +486,8 @@ namespace SpellWar {
                     spriteBatch.Draw(virtualShoot, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideShoot], 700), Color.White * 0.5f);
                 }
             }
+
+
            
             
 
