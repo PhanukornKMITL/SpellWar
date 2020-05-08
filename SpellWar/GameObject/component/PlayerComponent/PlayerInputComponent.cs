@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -120,8 +121,10 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                             Singleton.Instance.leftChooseShoot = true;
                             Singleton.Instance.virtualShootVisible = false;
                             Singleton.Instance.kState = 1;
-                            gameObjects.Single(s => s.Name.Equals("Player2")).Position = new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove], 920 - 170);
-                            Singleton.Instance.moveLeft = true;
+
+                            //gameObjects.Single(s => s.Name.Equals("Player2")).Position = new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove], 920 - 170);
+                            //Singleton.Instance.P2move = true;
+                            
 
                         }
 
@@ -131,6 +134,8 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                     Singleton.Instance.isRightMove = true;
                     Singleton.Instance.timer = 3;
                 }
+                if (Singleton.Instance.leftChooseShoot && Singleton.Instance.isRightMove)
+                    gameObjects.Single(s => s.Name.Equals("Player2")).Position = walk(gameObjects.Single(s => s.Name.Equals("Player2")).Position, Singleton.Instance.rightArea[Singleton.Instance.rightSideMove] );
 
 
 
@@ -225,7 +230,8 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                             Singleton.Instance.rightChooseShoot = true;
                             Singleton.Instance.virtualShootVisible = false;
                             Singleton.Instance.kState = 2;
-                            gameObjects.Single(s => s.Name.Equals("Player1")).Position = new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], 920 - 170);
+                            //gameObjects.Single(s => s.Name.Equals("Player1")).Position = new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], 920 - 170);
+                            //Singleton.Instance.P1move = true;
 
 
                         }
@@ -238,12 +244,24 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                     Singleton.Instance.timer = 3;
                 }
 
-
+                if (Singleton.Instance.rightChooseShoot && Singleton.Instance.isLeftMove)
+                    gameObjects.Single(s => s.Name.Equals("Player1")).Position = walk(gameObjects.Single(s => s.Name.Equals("Player1")).Position, Singleton.Instance.leftArea[Singleton.Instance.leftSideMove]);
 
 
             }
+            
 
 
+        }
+
+        public Vector2 walk(Vector2 position, float destination)
+        {
+            if (position.X < destination)
+                position.X += 1;
+            else
+                position.X -= 1; 
+            
+            return position;
         }
     }
 }

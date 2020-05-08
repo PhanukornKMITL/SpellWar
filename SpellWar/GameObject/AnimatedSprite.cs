@@ -20,16 +20,12 @@ namespace SpellWar.gameObject {
         protected Vector2 sDirection = Vector2.Zero;
 
         protected string currentAnimation;
-        public enum myDirection { none, left, right, up };
-
-        protected myDirection currenDir= myDirection.none;
-
+        
 
         public AnimatedSprite(Vector2 position,Texture2D texture)
         {
             sPosition = position;
             sTexteure = texture;
-           
         }
 
 
@@ -65,7 +61,7 @@ namespace SpellWar.gameObject {
                 }
                 else
                 {
-                    //AnimationDone(currentAnimation);
+                    AnimationDone(currentAnimation);
                     frameIndex = 0;
                 }
             }
@@ -82,19 +78,25 @@ namespace SpellWar.gameObject {
 
         public void PlayAnimation (string name)
         {
-            if (currentAnimation !=name && currenDir == myDirection.none)
+            if (currentAnimation !=name &&  Singleton.Instance.currenDir == Singleton.myDirection.none)
             {
                 currentAnimation = name;
                 frameIndex = 0;
             }
         }
 
-        //public void AnimationDone(string animation) {
-            //if (animation.Contains("Attack"))
-           // {
-             //   attacking = false;
-           // }
-        //}
         
+        public void AnimationDone(string animation)
+        {
+            if (animation.Contains("Attack"))
+            {
+
+                //Console.WriteLine("hello from animation Don ");
+
+                Singleton.Instance.P1attacking = false;
+                //Singleton.Instance.P2attacking = false;
+
+            }
+        }
     }
 }

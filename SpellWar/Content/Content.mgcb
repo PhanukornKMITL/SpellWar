@@ -68,6 +68,12 @@
 /processorParam:TextureFormat=Color
 /build:heart.png
 
+#begin sfx_movement_footsteps5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sfx_movement_footsteps5.wav;moveEffect.wav
+
 #begin tWizar_183.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -115,18 +121,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:voodoo.png
-
-#begin VooSprite_183.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:VooSprite_183.png
 
 #begin VooSprite_183.png
 /importer:TextureImporter

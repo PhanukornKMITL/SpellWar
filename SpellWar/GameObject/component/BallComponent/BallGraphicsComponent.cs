@@ -19,11 +19,11 @@ namespace SpellWar.gameObject.component.BallComponent {
             //Console.WriteLine(parent.Position);
 
            if (Singleton.Instance.ballVisible && parent.Name.Equals("voBall")) {
-                spriteBatch.Draw(texture, parent.Position, Color.White);
+                spriteBatch.Draw(texture, parent.getRect, Color.White);
 
             }
             else if (Singleton.Instance.ball2Visible && parent.Name.Equals("wizBall") ) {
-                spriteBatch.Draw(texture, parent.Position, Color.White);
+                spriteBatch.Draw(texture, parent.getRect, Color.White);
 
             }
             //spriteBatch.Draw(texture, parent.Position, Color.White);

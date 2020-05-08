@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+
 using SpellWar.gameObject;
 using SpellWar.gameObject.component;
 using SpellWar.gameObject.component.BallComponent;
@@ -27,7 +29,7 @@ namespace SpellWar {
         int side;
         KeyboardState kBState;
         SpriteFont gameFont;
-        
+        SoundEffect moveEffect;
         
         GameObject voBall, wizBall;
         List<GameObject> gameObjects;
@@ -120,7 +122,7 @@ namespace SpellWar {
             voodoo = Content.Load<Texture2D>("VooSprite_183");
             heart = Content.Load<Texture2D>("heart");
 
-
+            moveEffect = Content.Load<SoundEffect>("moveEffect");
 
             
           /*  player1 = new Player(voodoo, heart) {
@@ -141,14 +143,14 @@ namespace SpellWar {
             };*/
             
 
-            player1 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this,voodoo,new Vector2((int)Singleton.Instance.leftArea[2], 920))) {
+            player1 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this,voodoo,moveEffect,new Vector2((int)Singleton.Instance.leftArea[2], 920))) {
                 Name = "Player1",
                 Health = 3,
                 WalkSlot = 2,
                 Power = 1,
                 getRect = new Rectangle((int)Singleton.Instance.leftArea[2], 920, 150, 150)
             };
-            player2 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this, wizzard,new Vector2((int)Singleton.Instance.rightArea[2], 920))) {
+            player2 = new GameObject(new PlayerInputComponent(this), new PlayerPhysicsComponent(this), new PlayerGraphicsComponent(this, wizzard,moveEffect,new Vector2((int)Singleton.Instance.rightArea[2], 920))) {
                 Name = "Player2",
                 Health = 3,
                 WalkSlot = 2,
@@ -258,12 +260,14 @@ namespace SpellWar {
             };*/
 
             voBall = new GameObject(null, new BallPhysicsComponent(this), new BallGraphicsComponent(this, ball)) {
-                Name = "voBall"
+                Name = "voBall",
+                getRect = new Rectangle((int)0, 0, 60, 60)
 
             };
 
             wizBall = new GameObject(null, new BallPhysicsComponent(this), new BallGraphicsComponent(this, ball2)) {
-                Name = "wizBall"
+                Name = "wizBall",
+                getRect = new Rectangle((int)0, 0, 60, 60)
 
             };
 
