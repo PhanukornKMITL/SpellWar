@@ -62,8 +62,8 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                 {
                     animated.PlayAnimation("Move");
                     time += gameTime.ElapsedGameTime.TotalSeconds;
-                    Console.WriteLine(time);
-                    if(time > 1) {
+                    
+                    if(time > 0.5) {
                        
                         soundEffectInstance.Play();
                         time = 0;
@@ -74,11 +74,11 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                 }
                 else if (parent.Name.Equals("Player1"))
                 {
-                    if (Singleton.Instance.leftChooseShoot)
+                    if (Singleton.Instance.leftChooseShoot && Singleton.Instance.P1attacking)
                     {
                         animated.PlayAnimation("Attack");
 
-                        Singleton.Instance.P1attacking = true;
+                        
                         Singleton.Instance.currenDir = Singleton.myDirection.attack;
                     }
 
@@ -101,7 +101,7 @@ namespace SpellWar.gameObject.component.PlayerComponent {
 
                     time += gameTime.ElapsedGameTime.TotalSeconds;
                     Console.WriteLine(time);
-                    if (time > 1) {
+                    if (time > 0.5) {
                         
                         soundEffectInstance.Play();
                         time = 0;
@@ -112,12 +112,13 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                 }
                 else if (parent.Name.Equals("Player2"))
                 {
-                    if (Singleton.Instance.rightChooseShoot)
-                    {
-                        animated.PlayAnimation("Attack");
-                        //Singleton.Instance.P2attacking = true;
+                    
+                        if (Singleton.Instance.rightChooseShoot && Singleton.Instance.P2attacking) {
 
-                    }
+
+                            animated.PlayAnimation("Attack");
+                        }
+ 
                     else
                     {
                         animated.PlayAnimation("Stand");

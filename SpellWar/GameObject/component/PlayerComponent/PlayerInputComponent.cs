@@ -121,10 +121,10 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                             Singleton.Instance.leftChooseShoot = true;
                             Singleton.Instance.virtualShootVisible = false;
                             Singleton.Instance.kState = 1;
-
+                            Singleton.Instance.P1attacking = true;
                             //gameObjects.Single(s => s.Name.Equals("Player2")).Position = new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove], 920 - 170);
                             //Singleton.Instance.P2move = true;
-                            
+
 
                         }
 
@@ -230,6 +230,7 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                             Singleton.Instance.rightChooseShoot = true;
                             Singleton.Instance.virtualShootVisible = false;
                             Singleton.Instance.kState = 2;
+                            Singleton.Instance.P2attacking = true;
                             //gameObjects.Single(s => s.Name.Equals("Player1")).Position = new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], 920 - 170);
                             //Singleton.Instance.P1move = true;
 

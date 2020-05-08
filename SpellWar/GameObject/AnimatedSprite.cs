@@ -88,14 +88,16 @@ namespace SpellWar.gameObject {
         
         public void AnimationDone(string animation)
         {
-            if (animation.Contains("Attack"))
+            if (animation.Contains("Attack") &&  Singleton.Instance.P1attacking)
             {
 
                 //Console.WriteLine("hello from animation Don ");
 
                 Singleton.Instance.P1attacking = false;
                 //Singleton.Instance.P2attacking = false;
-
+            }
+            else if (animation.Contains("Attack") && Singleton.Instance.P2attacking) {
+                Singleton.Instance.P2attacking = false;
             }
         }
     }
