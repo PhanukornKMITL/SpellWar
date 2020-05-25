@@ -6,12 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpellWar.gameObject.component.PlayerComponent {
     class PlayerInputComponent : InputComponent {
 
-
+        Random rand = new Random();
 
         public PlayerInputComponent(Game currentScene) : base(currentScene) {
 
@@ -39,44 +40,43 @@ namespace SpellWar.gameObject.component.PlayerComponent {
            
             //Turn Left To Shoot
             if (Singleton.Instance.isLeftTurn) {
-                
+
 
 
                 //right will move first
+
                 Singleton.Instance.CurrentKey = Keyboard.GetState();
-               
 
                 Singleton.Instance.virtualVisible = true;
 
                 if (!Singleton.Instance.isRightMove) {
-                    
-                   
 
-                    if (parent.Name.Equals("Player2") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
-                        Console.WriteLine(parent.Name);
+                    if (Singleton.Instance.isAI && parent.Name.Equals("Player2")) {
 
+                        int x;
+                        
+                            if (parent.WalkSlot <= 2) {
+                                x = rand.Next(parent.WalkSlot - 2, 2 + parent.WalkSlot);
+                            }
+                            else {
+                                x = rand.Next(0, 4);
+                            }
 
-
-                        if (Singleton.Instance.rightSideMove > 0 && parent.WalkSlot + (Singleton.Instance.count - 1) >= 0) {
-                            Singleton.Instance.rightSideMove--;
-                            Singleton.Instance.count--;
-
-                        }
-
-                    }
-
-                    if (parent.Name.Equals("Player2") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
-
-                        if (Singleton.Instance.rightSideMove < 4 && parent.WalkSlot - (Singleton.Instance.count + 1) >= 0) {
-                            Singleton.Instance.rightSideMove++;
-                            Singleton.Instance.count++;
-
-                        }
-
-                    }
-
-                    if (parent.Name.Equals("Player2") && (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || Singleton.Instance.timer <= 0)) {
-                        //After right move
+                            Console.WriteLine("rand is" + x);
+                            Singleton.Instance.rightSideMove = x;
+                            Singleton.Instance.count = x;
+                            if (Singleton.Instance.count != 2) {
+                                if (Singleton.Instance.count % 2 == 0) {
+                                    Singleton.Instance.count = 2;
+                                }
+                                else {
+                                    Singleton.Instance.count = 1;
+                                }
+                                //parent.WalkSlot -= Singleton.Instance.count;
+                            }
+                            else {
+                                Singleton.Instance.count = 0;
+                            }
                         Singleton.Instance.isRightMove = true;
                         if (Singleton.Instance.count < 0) {
                             parent.WalkSlot -= Singleton.Instance.count * -1;
@@ -84,7 +84,48 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                         else {
                             parent.WalkSlot -= Singleton.Instance.count;
                         }
+
                     }
+
+                    else {
+                        if (parent.Name.Equals("Player2") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Left) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+                            Console.WriteLine(parent.Name);
+
+
+
+                            if (Singleton.Instance.rightSideMove > 0 && parent.WalkSlot + (Singleton.Instance.count - 1) >= 0) {
+                                Singleton.Instance.rightSideMove--;
+                                Singleton.Instance.count--;
+
+                            }
+
+                        }
+
+                        if (parent.Name.Equals("Player2") && Singleton.Instance.CurrentKey.IsKeyDown(Keys.Right) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey)) {
+
+                            if (Singleton.Instance.rightSideMove < 4 && parent.WalkSlot - (Singleton.Instance.count + 1) >= 0) {
+                                Singleton.Instance.rightSideMove++;
+                                Singleton.Instance.count++;
+
+                            }
+
+                        }
+
+                        if (parent.Name.Equals("Player2") && (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || Singleton.Instance.timer <= 0)) {
+                            //After right move
+                            Singleton.Instance.isRightMove = true;
+                            if (Singleton.Instance.count < 0) {
+                                parent.WalkSlot -= Singleton.Instance.count * -1;
+                            }
+                            else {
+                                parent.WalkSlot -= Singleton.Instance.count;
+                            }
+
+                        }
+                    }
+                        
+                    
+
                 }
 
 
@@ -179,17 +220,20 @@ namespace SpellWar.gameObject.component.PlayerComponent {
 
                     }
 
+
+
                     if (parent.Name.Equals("Player1") && (Singleton.Instance.CurrentKey.IsKeyDown(Keys.Enter) && !Singleton.Instance.CurrentKey.Equals(Singleton.Instance.PreviousKey) || Singleton.Instance.timer <= 0)) {
                         //After left move
                         Singleton.Instance.isLeftMove = true;
+                            if (Singleton.Instance.count < 0) {
+                                parent.WalkSlot -= Singleton.Instance.count * -1;
+                            }
+                            else {
+                                parent.WalkSlot -= Singleton.Instance.count;
+                            }
+                       
 
-                        if (Singleton.Instance.count < 0) {
-                            parent.WalkSlot -= Singleton.Instance.count * -1;
-                        }
-                        else {
-                            parent.WalkSlot -= Singleton.Instance.count;
-                        }
-                        
+
                     }
 
 
@@ -197,12 +241,40 @@ namespace SpellWar.gameObject.component.PlayerComponent {
 
 
                 else if (Singleton.Instance.isLeftMove) {
-
+                   
+                    
                     Singleton.Instance.virtualVisible = false;
 
                     //Right Side Can Shoot Now
 
-                    if (!Singleton.Instance.rightChooseShoot) {
+                    if (Singleton.Instance.isAI && !Singleton.Instance.rightChooseShoot) {
+                        int AIPosShoot = 0;
+                        if (parent.Name.Equals("Player1")) {
+                            AIPosShoot = parent.WalkSlot;
+                        }
+                        if (parent.Name.Equals("Player2")) {
+                            int x;
+                            if (AIPosShoot <= 2) {
+                                x = rand.Next(parent.WalkSlot - 2, 2 + parent.WalkSlot);
+                               
+                            }
+                            else {
+                                x = rand.Next(0, 4);
+
+                            }
+                            Singleton.Instance.leftSideShoot = x;
+                            Singleton.Instance.rightChooseShoot = true;
+                            Singleton.Instance.virtualShootVisible = false;
+                            Singleton.Instance.kState = 2;
+                            Singleton.Instance.P2attacking = true;
+
+                        }
+
+
+
+                    }
+                    else {
+                        if (!Singleton.Instance.rightChooseShoot) {
 
                         Singleton.Instance.virtualShootVisible = true;
 
@@ -236,6 +308,8 @@ namespace SpellWar.gameObject.component.PlayerComponent {
 
 
                         }
+                    }
+                    
 
                     }
 

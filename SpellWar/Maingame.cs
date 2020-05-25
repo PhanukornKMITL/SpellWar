@@ -489,9 +489,11 @@ namespace SpellWar {
             if (Singleton.Instance.virtualVisible) {
                 if (Singleton.Instance.isLeftTurn) {
                     spriteBatch.Draw(virtualBox, new Vector2(Singleton.Instance.rightArea[Singleton.Instance.rightSideMove] , 700), Color.White * 0.5f);
+                    Console.WriteLine("Left is "+Singleton.Instance.rightSideMove);
                 }
                 else if (Singleton.Instance.isRightTurn) {
                     spriteBatch.Draw(virtualBox, new Vector2(Singleton.Instance.leftArea[Singleton.Instance.leftSideMove], 700), Color.White * 0.5f);
+                    Console.WriteLine("Right is "+Singleton.Instance.leftSideMove);
                 }
                  
             }

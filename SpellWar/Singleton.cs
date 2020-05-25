@@ -23,7 +23,9 @@ namespace SpellWar {
         public int count, turnCount = 0, turn = 0;
         public bool ballVisible, ball2Visible, virtualVisible, virtualShootVisible, isDecreaseHealth,endTurn ,P1attacking = false,P2attacking = false;
         public int kState = 0;
-       
+        public bool isAI = true;
+
+
         public enum myDirection { none, move, attack };
 
         public myDirection currenDir= myDirection.none;
