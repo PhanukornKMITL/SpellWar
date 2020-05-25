@@ -55,11 +55,11 @@ namespace SpellWar.gameObject.component.PlayerComponent {
 
                         int x;
                         
-                            if (parent.WalkSlot <= 2) {
+                            if (parent.WalkSlot <= 2 && parent.WalkSlot > 0) {
                                 x = rand.Next(parent.WalkSlot - 2, 2 + parent.WalkSlot);
                             }
                             else {
-                                x = rand.Next(0, 4);
+                                x = rand.Next(0, 3);
                             }
 
                             Console.WriteLine("rand is" + x);
@@ -254,14 +254,16 @@ namespace SpellWar.gameObject.component.PlayerComponent {
                         }
                         if (parent.Name.Equals("Player2")) {
                             int x;
-                            if (AIPosShoot <= 2) {
+                            if (AIPosShoot <= 2 && AIPosShoot >0) {
                                 x = rand.Next(parent.WalkSlot - 2, 2 + parent.WalkSlot);
                                
                             }
                             else {
-                                x = rand.Next(0, 4);
+                                x = rand.Next(0, 3);
 
                             }
+                            Console.WriteLine("AIshootPos "+AIPosShoot);
+                            Console.WriteLine("X is"+x);
                             Singleton.Instance.leftSideShoot = x;
                             Singleton.Instance.rightChooseShoot = true;
                             Singleton.Instance.virtualShootVisible = false;
